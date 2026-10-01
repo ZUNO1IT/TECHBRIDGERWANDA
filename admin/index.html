@@ -1,0 +1,1303 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TECHBRIDGE RWANDA — Admin Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070b14;
+      --panel: #0d1527;
+      --panel2: #111c31;
+      --border: rgba(255,255,255,.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0,229,255,.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(168,85,247,.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+      width: 260px;
+      background: rgba(13,21,39,.9);
+      border-right: 1px solid var(--border);
+      padding: 22px 15px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 25px;
+    }
+
+    .brand-logo {
+      width: 45px;
+      height: 45px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #041018;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .nav-title {
+      color: #64748b;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      padding: 12px 12px 8px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      transition: .2s;
+      font-size: 14px;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: rgba(0,229,255,.08);
+      color: var(--cyan);
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      bottom: 18px;
+    }
+
+    .logout {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(239,68,68,.18);
+      background: rgba(239,68,68,.07);
+      color: #fca5a5;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    /* ================= MAIN ================= */
+
+    .main {
+      margin-left: 260px;
+      width: calc(100% - 260px);
+      padding: 25px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 28px;
+    }
+
+    .topbar h1 {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .admin-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #041018;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--cyan),var(--purple));
+    }
+
+    .admin-profile small {
+      display: block;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ================= STATS ================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 15px;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      padding: 19px;
+      border: 1px solid var(--border);
+      background: rgba(13,21,39,.72);
+      border-radius: 18px;
+      backdrop-filter: blur(15px);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .stat-note {
+      color: #64748b;
+      font-size: 11px;
+      margin-top: 7px;
+    }
+
+    /* ================= GRID ================= */
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 28px 0 13px;
+    }
+
+    .section-title h2 {
+      font-size: 17px;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 14px;
+    }
+
+    .module {
+      text-decoration: none;
+      color: inherit;
+      padding: 20px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(13,21,39,.7);
+      transition: .2s;
+    }
+
+    .module:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,229,255,.25);
+    }
+
+    .module-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      background: rgba(0,229,255,.08);
+      font-size: 20px;
+    }
+
+    .module h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .module p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* ================= RECENT ================= */
+
+    .recent {
+      border: 1px solid var(--border);
+      background: rgba(13,21,39,.72);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .recent-head,
+    .payment-row {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr .8fr .8fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .recent-head {
+      padding: 14px 18px;
+      color: #64748b;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .payment-row {
+      padding: 15px 18px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .payment-row small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .pending {
+      background: rgba(245,158,11,.1);
+      color: #fbbf24;
+    }
+
+    .approved {
+      background: rgba(34,197,94,.1);
+      color: #86efac;
+    }
+
+    .rejected {
+      background: rgba(239,68,68,.1);
+      color: #fca5a5;
+    }
+
+    .empty {
+      padding: 35px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ================= MOBILE ================= */
+
+    .mobile-header {
+      display: none;
+    }
+
+    .menu-btn {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: white;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 18px;
+    }
+
+    @media (max-width: 1100px) {
+
+      .stats {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .modules {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 18px;
+      }
+
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .mobile-header strong {
+        font-size: 14px;
+      }
+
+      .topbar {
+        display: block;
+      }
+
+      .admin-profile {
+        margin-top: 14px;
+        width: fit-content;
+      }
+
+      .recent-head {
+        display: none;
+      }
+
+      .payment-row {
+        grid-template-columns: 1fr 1fr;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .stats,
+      .modules {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        TB
+      </div>
+
+      <div>
+        <strong>TECHBRIDGE</strong>
+        <span>RWANDA • ADMIN</span>
+      </div>
+
+    </div>
+
+
+    <div class="nav-title">
+      Management
+    </div>
+
+    <nav class="nav">
+
+      <a href="./index.html" class="active">
+        📊 Dashboard
+      </a>
+
+      <a href="./students.html">
+        👨‍🎓 Students
+      </a>
+
+      <a href="./courses.html">
+        📚 Courses
+      </a>
+
+      <a href="./payments.html">
+        💰 Payments
+      </a>
+
+      <a href="./quizzes.html">
+        📝 Quizzes
+      </a>
+
+      <a href="./tests.html">
+        🧪 Tests
+      </a>
+
+      <a href="./practical.html">
+        💻 Practical
+      </a>
+
+    </nav>
+
+
+    <div class="nav-title">
+      Academic
+    </div>
+
+    <nav class="nav">
+
+      <a href="#">
+        🏆 Certificates
+      </a>
+
+      <a href="#">
+        📈 Progress
+      </a>
+
+      <a href="#">
+        🔔 Notifications
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <button class="logout" id="logoutBtn">
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="main">
+
+    <div class="mobile-header">
+
+      <strong>TECHBRIDGE RWANDA</strong>
+
+      <button class="menu-btn" id="menuBtn">
+        ☰
+      </button>
+
+    </div>
+
+
+    <header class="topbar">
+
+      <div>
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+          Manage students, courses, payments and learning activities.
+        </p>
+
+      </div>
+
+
+      <div class="admin-profile">
+
+        <div class="avatar" id="avatar">
+          A
+        </div>
+
+        <div>
+
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <small>
+            Secure Admin
+          </small>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Total Students
+        </div>
+
+        <div class="stat-value" id="studentsCount">
+          —
+        </div>
+
+        <div class="stat-note">
+          Registered accounts
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Total Courses
+        </div>
+
+        <div class="stat-value" id="coursesCount">
+          —
+        </div>
+
+        <div class="stat-note">
+          Available courses
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Pending Payments
+        </div>
+
+        <div class="stat-value" id="pendingCount">
+          —
+        </div>
+
+        <div class="stat-note">
+          Awaiting verification
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Approved Payments
+        </div>
+
+        <div class="stat-value" id="approvedCount">
+          —
+        </div>
+
+        <div class="stat-note">
+          Verified payments
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= MODULES ================= -->
+
+    <div class="section-title">
+
+      <h2>
+        Management Modules
+      </h2>
+
+      <span>
+        Admin tools
+      </span>
+
+    </div>
+
+
+    <section class="modules">
+
+      <a href="./students.html" class="module">
+
+        <div class="module-icon">
+          👨‍🎓
+        </div>
+
+        <h3>Students</h3>
+
+        <p>
+          View students, accounts and learning progress.
+        </p>
+
+      </a>
+
+
+      <a href="./courses.html" class="module">
+
+        <div class="module-icon">
+          📚
+        </div>
+
+        <h3>Courses</h3>
+
+        <p>
+          Create and manage courses and lessons.
+        </p>
+
+      </a>
+
+
+      <a href="./payments.html" class="module">
+
+        <div class="module-icon">
+          💰
+        </div>
+
+        <h3>Payments</h3>
+
+        <p>
+          Verify enrollment payments and unlock courses.
+        </p>
+
+      </a>
+
+
+      <a href="./quizzes.html" class="module">
+
+        <div class="module-icon">
+          📝
+        </div>
+
+        <h3>Quizzes</h3>
+
+        <p>
+          Manage lesson quizzes and questions.
+        </p>
+
+      </a>
+
+
+      <a href="./tests.html" class="module">
+
+        <div class="module-icon">
+          🧪
+        </div>
+
+        <h3>Tests</h3>
+
+        <p>
+          Manage beginner, intermediate and advanced tests.
+        </p>
+
+      </a>
+
+
+      <a href="./practical.html" class="module">
+
+        <div class="module-icon">
+          💻
+        </div>
+
+        <h3>Practical Tasks</h3>
+
+        <p>
+          Create and review practical assignments.
+        </p>
+
+      </a>
+
+
+      <a href="#" class="module">
+
+        <div class="module-icon">
+          🏆
+        </div>
+
+        <h3>Certificates</h3>
+
+        <p>
+          Manage certificates and achievement badges.
+        </p>
+
+      </a>
+
+
+      <a href="#" class="module">
+
+        <div class="module-icon">
+          📈
+        </div>
+
+        <h3>Progress</h3>
+
+        <p>
+          Monitor student learning progression.
+        </p>
+
+      </a>
+
+    </section>
+
+
+    <!-- ================= RECENT PAYMENTS ================= -->
+
+    <div class="section-title">
+
+      <h2>
+        Recent Payments
+      </h2>
+
+      <span>
+        Latest submissions
+      </span>
+
+    </div>
+
+
+    <section class="recent">
+
+      <div class="recent-head">
+
+        <div>Student</div>
+        <div>Course</div>
+        <div>Amount</div>
+        <div>Status</div>
+
+      </div>
+
+      <div id="paymentsList">
+
+        <div class="empty">
+          Loading payments...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+  // ==========================================
+  // FIREBASE
+  // ==========================================
+
+  import {
+    initializeApp
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    getIdTokenResult
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy,
+    limit
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+
+    authDomain:
+      "techbrige-rwanda.firebaseapp.com",
+
+    projectId:
+      "techbrige-rwanda",
+
+    storageBucket:
+      "techbrige-rwanda.firebasestorage.app",
+
+    messagingSenderId:
+      "391783540774",
+
+    appId:
+      "1:391783540774:web:de825e268d4ed6b2711ee7"
+
+  };
+
+
+  const app =
+    initializeApp(firebaseConfig);
+
+  const auth =
+    getAuth(app);
+
+  const db =
+    getFirestore(app);
+
+
+  // ==========================================
+  // ELEMENTS
+  // ==========================================
+
+  const studentsCount =
+    document.getElementById("studentsCount");
+
+  const coursesCount =
+    document.getElementById("coursesCount");
+
+  const pendingCount =
+    document.getElementById("pendingCount");
+
+  const approvedCount =
+    document.getElementById("approvedCount");
+
+  const paymentsList =
+    document.getElementById("paymentsList");
+
+  const adminName =
+    document.getElementById("adminName");
+
+  const avatar =
+    document.getElementById("avatar");
+
+  const logoutBtn =
+    document.getElementById("logoutBtn");
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const menuBtn =
+    document.getElementById("menuBtn");
+
+
+  // ==========================================
+  // MOBILE MENU
+  // ==========================================
+
+  menuBtn.addEventListener("click", () => {
+
+    sidebar.classList.toggle("open");
+
+  });
+
+
+  // ==========================================
+  // AUTH + ADMIN CHECK
+  // ==========================================
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+      window.location.href =
+        "../login.html";
+
+      return;
+    }
+
+
+    try {
+
+      const tokenResult =
+        await getIdTokenResult(user, true);
+
+
+      if (tokenResult.claims.admin !== true) {
+
+        alert(
+          "Access denied. This account is not an administrator."
+        );
+
+        window.location.href =
+          "../students/index.html";
+
+        return;
+      }
+
+
+      // Admin identity
+
+      const name =
+        user.displayName ||
+        user.email?.split("@")[0] ||
+        "Administrator";
+
+
+      adminName.textContent =
+        name;
+
+
+      avatar.textContent =
+        name.charAt(0).toUpperCase();
+
+
+      await loadDashboard();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Unable to verify administrator access."
+      );
+
+      window.location.href =
+        "../login.html";
+
+    }
+
+  });
+
+
+  // ==========================================
+  // LOAD DASHBOARD
+  // ==========================================
+
+  async function loadDashboard() {
+
+    await Promise.all([
+      loadStudents(),
+      loadCourses(),
+      loadPayments()
+    ]);
+
+  }
+
+
+  // ==========================================
+  // STUDENTS
+  // ==========================================
+
+  async function loadStudents() {
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "users")
+        );
+
+
+      let count = 0;
+
+
+      snapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+        if (data.role === "student") {
+
+          count++;
+
+        }
+
+      });
+
+
+      studentsCount.textContent =
+        count;
+
+    } catch (error) {
+
+      console.error(error);
+
+      studentsCount.textContent =
+        "—";
+
+    }
+
+  }
+
+
+  // ==========================================
+  // COURSES
+  // ==========================================
+
+  async function loadCourses() {
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "courses")
+        );
+
+
+      coursesCount.textContent =
+        snapshot.size;
+
+    } catch (error) {
+
+      console.error(error);
+
+      coursesCount.textContent =
+        "—";
+
+    }
+
+  }
+
+
+  // ==========================================
+  // PAYMENTS
+  // ==========================================
+
+  async function loadPayments() {
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(db, "payments")
+        );
+
+
+      let pending = 0;
+      let approved = 0;
+
+
+      snapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+
+        if (data.status === "pending") {
+          pending++;
+        }
+
+        if (data.status === "approved") {
+          approved++;
+        }
+
+      });
+
+
+      pendingCount.textContent =
+        pending;
+
+      approvedCount.textContent =
+        approved;
+
+
+      // Recent payments
+
+      const recentQuery =
+        query(
+          collection(db, "payments"),
+          orderBy("submittedAt", "desc"),
+          limit(8)
+        );
+
+
+      const recentSnapshot =
+        await getDocs(recentQuery);
+
+
+      if (recentSnapshot.empty) {
+
+        paymentsList.innerHTML = `
+          <div class="empty">
+            No payments submitted yet.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      paymentsList.innerHTML = "";
+
+
+      recentSnapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+
+        const row =
+          document.createElement("div");
+
+        row.className =
+          "payment-row";
+
+
+        const student =
+          data.userEmail ||
+          data.userId ||
+          "Unknown";
+
+
+        const course =
+          data.courseName ||
+          data.courseId ||
+          "Unknown";
+
+
+        const amount =
+          Number(data.amount || 0)
+            .toLocaleString();
+
+
+        const status =
+          data.status || "pending";
+
+
+        row.innerHTML = `
+
+          <div>
+            ${escapeHtml(student)}
+          </div>
+
+          <div>
+            ${escapeHtml(course)}
+          </div>
+
+          <div>
+            ${amount} RWF
+          </div>
+
+          <div>
+            <span class="badge ${status}">
+              ${escapeHtml(status)}
+            </span>
+          </div>
+
+        `;
+
+
+        paymentsList.appendChild(row);
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      paymentsList.innerHTML = `
+        <div class="empty">
+          Unable to load recent payments.
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  // ==========================================
+  // HTML ESCAPE
+  // ==========================================
+
+  function escapeHtml(value) {
+
+    return String(value)
+
+      .replaceAll("&", "&amp;")
+
+      .replaceAll("<", "&lt;")
+
+      .replaceAll(">", "&gt;")
+
+      .replaceAll('"', "&quot;")
+
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        await signOut(auth);
+
+        window.location.href =
+          "../login.html";
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
+
