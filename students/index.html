@@ -1,0 +1,1603 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b14" />
+
+  <title>Student Dashboard | TECHBRIDGE RWANDA</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --sidebar: #0b1120;
+      --card: rgba(15, 24, 43, .78);
+      --card2: rgba(20, 32, 56, .58);
+      --border: rgba(255,255,255,.08);
+      --text: #f5f7ff;
+      --muted: #93a1b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(0,229,255,.08), transparent 28%),
+        radial-gradient(circle at 30% 100%, rgba(168,85,247,.07), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ==============================
+       LAYOUT
+    ============================== */
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ==============================
+       SIDEBAR
+    ============================== */
+
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      padding: 22px 14px;
+      background: rgba(9,15,27,.92);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 10px 25px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+      color: #031016;
+      font-weight: 950;
+      box-shadow: 0 0 25px rgba(0,229,255,.2);
+    }
+
+    .brand-text {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .4px;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
+      margin-top: 3px;
+    }
+
+    .nav-title {
+      color: #5e6b80;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 15px 12px 8px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 13px;
+      text-align: left;
+      transition: .2s;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255,255,255,.04);
+    }
+
+    .nav-item.active {
+      color: var(--cyan);
+      background: rgba(0,229,255,.07);
+      border-color: rgba(0,229,255,.12);
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 18px;
+    }
+
+    .user-mini {
+      padding: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.025);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--purple),var(--blue));
+    }
+
+    .user-info {
+      min-width: 0;
+    }
+
+    .user-name {
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-role {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    /* ==============================
+       MAIN
+    ============================== */
+
+    .main {
+      width: calc(100% - 250px);
+      margin-left: 250px;
+      padding: 22px 28px 40px;
+    }
+
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: white;
+    }
+
+    .top-title h1 {
+      font-size: 23px;
+      letter-spacing: -.5px;
+    }
+
+    .top-title p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 9px;
+    }
+
+    .top-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: #bdc8da;
+      transition: .2s;
+    }
+
+    .top-btn:hover {
+      color: var(--cyan);
+      border-color: rgba(0,229,255,.25);
+    }
+
+    /* ==============================
+       HERO
+    ============================== */
+
+    .welcome {
+      border: 1px solid rgba(0,229,255,.12);
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 22px;
+      background:
+        radial-gradient(circle at 90% 20%, rgba(168,85,247,.18), transparent 28%),
+        radial-gradient(circle at 70% 90%, rgba(0,229,255,.10), transparent 35%),
+        linear-gradient(135deg, rgba(14,28,51,.9), rgba(10,17,31,.88));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome::after {
+      content: "TB";
+      position: absolute;
+      right: 25px;
+      bottom: -45px;
+      font-size: 150px;
+      font-weight: 950;
+      color: rgba(255,255,255,.025);
+      pointer-events: none;
+    }
+
+    .welcome-label {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.8px;
+      margin-bottom: 9px;
+    }
+
+    .welcome h2 {
+      font-size: clamp(25px, 3vw, 36px);
+      letter-spacing: -1px;
+      max-width: 650px;
+    }
+
+    .welcome h2 span {
+      color: var(--cyan);
+    }
+
+    .welcome p {
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.6;
+      max-width: 600px;
+      font-size: 13px;
+    }
+
+    /* ==============================
+       STATS
+    ============================== */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 15px;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      min-height: 120px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      backdrop-filter: blur(15px);
+    }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: rgba(0,229,255,.07);
+      color: var(--cyan);
+    }
+
+    .stat-value {
+      font-size: 25px;
+      font-weight: 900;
+      margin-top: 15px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    /* ==============================
+       GRID
+    ============================== */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.45fr .75fr;
+      gap: 20px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 62px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-head h3 {
+      font-size: 14px;
+    }
+
+    .panel-head a {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* ==============================
+       COURSES
+    ============================== */
+
+    .courses {
+      padding: 15px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .course {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.025);
+      transition: .2s;
+    }
+
+    .course:hover {
+      border-color: rgba(0,229,255,.18);
+      background: rgba(0,229,255,.035);
+      transform: translateY(-1px);
+    }
+
+    .course-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+      flex-shrink: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(0,229,255,.12),
+        rgba(59,130,246,.12)
+      );
+      color: var(--cyan);
+    }
+
+    .course-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .course-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .course-meta {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .progress {
+      margin-top: 9px;
+      height: 5px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.07);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg,var(--cyan),var(--blue));
+      transition: width .8s ease;
+    }
+
+    .course-percent {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .empty {
+      padding: 35px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .empty-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+      opacity: .65;
+    }
+
+    /* ==============================
+       QUICK ACTIONS
+    ============================== */
+
+    .actions {
+      padding: 15px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .action {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.025);
+      border-radius: 13px;
+      transition: .2s;
+      cursor: pointer;
+    }
+
+    .action:hover {
+      background: rgba(255,255,255,.05);
+      border-color: rgba(0,229,255,.18);
+    }
+
+    .action-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: rgba(168,85,247,.09);
+      color: #c084fc;
+    }
+
+    .action-info {
+      flex: 1;
+    }
+
+    .action-title {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .action-desc {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    .arrow {
+      color: #66748a;
+    }
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    .overlay {
+      display: none;
+    }
+
+    @media (max-width: 1050px) {
+
+      .stats {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+        box-shadow: 20px 0 50px rgba(0,0,0,.4);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+        z-index: 90;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        gap: 12px;
+      }
+
+      .top-title {
+        flex: 1;
+      }
+
+      .top-actions {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat {
+        min-height: 105px;
+        padding: 13px;
+      }
+
+      .stat-value {
+        font-size: 21px;
+      }
+
+      .welcome {
+        padding: 21px;
+      }
+
+      .welcome h2 {
+        font-size: 25px;
+      }
+
+      .course {
+        padding: 11px;
+      }
+
+      .course-icon {
+        width: 42px;
+        height: 42px;
+      }
+
+      .course-percent {
+        display: none;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="brand">
+        <div class="logo">TB</div>
+
+        <div class="brand-text">
+          TECHBRIDGE
+          <span>RWANDA</span>
+        </div>
+      </div>
+
+
+      <div class="nav-title">LEARNING</div>
+
+      <nav class="nav">
+
+        <button class="nav-item active" onclick="go('index.html')">
+          <span class="nav-icon">⌂</span>
+          Dashboard
+        </button>
+
+        <button class="nav-item" onclick="go('courses.html')">
+          <span class="nav-icon">▣</span>
+          My Courses
+        </button>
+
+        <button class="nav-item" onclick="go('quizzes.html')">
+          <span class="nav-icon">✓</span>
+          Quizzes
+        </button>
+
+        <button class="nav-item" onclick="go('tests.html')">
+          <span class="nav-icon">◈</span>
+          Tests
+        </button>
+
+        <button class="nav-item" onclick="go('practical.html')">
+          <span class="nav-icon">⌘</span>
+          Practical Learning
+        </button>
+
+      </nav>
+
+
+      <div class="nav-title">ACHIEVEMENT</div>
+
+      <nav class="nav">
+
+        <button class="nav-item" onclick="go('certificates.html')">
+          <span class="nav-icon">◇</span>
+          Certificates
+        </button>
+
+        <button class="nav-item" onclick="go('settings.html')">
+          <span class="nav-icon">⚙</span>
+          Settings
+        </button>
+
+      </nav>
+
+
+      <div class="sidebar-bottom">
+
+        <div class="user-mini">
+
+          <div class="avatar" id="sidebarAvatar">
+            ?
+          </div>
+
+          <div class="user-info">
+
+            <div class="user-name" id="sidebarName">
+              Loading...
+            </div>
+
+            <div class="user-role">
+              Student
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <div class="overlay" id="overlay"></div>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <header class="topbar">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <div class="top-title">
+          <h1>Student Dashboard</h1>
+          <p id="todayText">Your learning space</p>
+        </div>
+
+        <div class="top-actions">
+
+          <button
+            class="top-btn"
+            title="Notifications"
+          >
+            ♧
+          </button>
+
+          <button
+            class="top-btn"
+            title="Settings"
+            onclick="go('settings.html')"
+          >
+            ⚙
+          </button>
+
+        </div>
+
+      </header>
+
+
+      <!-- WELCOME -->
+      <section class="welcome">
+
+        <div class="welcome-label">
+          TECHBRIDGE RWANDA
+        </div>
+
+        <h2>
+          Welcome back,
+          <span id="welcomeName">Student</span>.
+        </h2>
+
+        <p>
+          Continue learning, practice your skills and move one step
+          closer to your next achievement.
+        </p>
+
+      </section>
+
+
+      <!-- STATS -->
+      <section class="stats">
+
+        <div class="stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              ENROLLED COURSES
+            </div>
+
+            <div class="stat-icon">
+              ▣
+            </div>
+          </div>
+
+          <div class="stat-value" id="coursesCount">
+            0
+          </div>
+
+          <div class="stat-label">
+            Active learning
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              COMPLETION
+            </div>
+
+            <div class="stat-icon">
+              ◉
+            </div>
+          </div>
+
+          <div class="stat-value" id="completionValue">
+            0%
+          </div>
+
+          <div class="stat-label">
+            Overall progress
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              QUIZZES
+            </div>
+
+            <div class="stat-icon">
+              ✓
+            </div>
+          </div>
+
+          <div class="stat-value" id="quizCount">
+            0
+          </div>
+
+          <div class="stat-label">
+            Completed attempts
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              CERTIFICATES
+            </div>
+
+            <div class="stat-icon">
+              ◇
+            </div>
+          </div>
+
+          <div class="stat-value" id="certificateCount">
+            0
+          </div>
+
+          <div class="stat-label">
+            Earned
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CONTENT -->
+      <section class="content-grid">
+
+
+        <!-- COURSES -->
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <h3>My Courses</h3>
+
+            <a href="courses.html">
+              View all →
+            </a>
+
+          </div>
+
+
+          <div class="courses" id="coursesContainer">
+
+            <div class="empty">
+              <div class="empty-icon">⌛</div>
+              Loading your courses...
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+        <div class="panel">
+
+          <div class="panel-head">
+            <h3>Quick Practice</h3>
+          </div>
+
+
+          <div class="actions">
+
+            <div
+              class="action"
+              onclick="go('ai-assistant.html')"
+            >
+
+              <div class="action-icon">
+                ✦
+              </div>
+
+              <div class="action-info">
+
+                <div class="action-title">
+                  Gemini AI Assistant
+                </div>
+
+                <div class="action-desc">
+                  Ask questions & learn
+                </div>
+
+              </div>
+
+              <div class="arrow">›</div>
+
+            </div>
+
+
+            <div
+              class="action"
+              onclick="go('practical.html')"
+            >
+
+              <div class="action-icon">
+                &lt;/&gt;
+              </div>
+
+              <div class="action-info">
+
+                <div class="action-title">
+                  Code Editor
+                </div>
+
+                <div class="action-desc">
+                  Practice programming
+                </div>
+
+              </div>
+
+              <div class="arrow">›</div>
+
+            </div>
+
+
+            <div
+              class="action"
+              onclick="go('tests.html')"
+            >
+
+              <div class="action-icon">
+                ◈
+              </div>
+
+              <div class="action-info">
+
+                <div class="action-title">
+                  Take a Test
+                </div>
+
+                <div class="action-desc">
+                  Check your knowledge
+                </div>
+
+              </div>
+
+              <div class="arrow">›</div>
+
+            </div>
+
+
+            <div
+              class="action"
+              onclick="go('certificates.html')"
+            >
+
+              <div class="action-icon">
+                ◇
+              </div>
+
+              <div class="action-info">
+
+                <div class="action-title">
+                  My Certificates
+                </div>
+
+                <div class="action-desc">
+                  View your achievements
+                </div>
+
+              </div>
+
+              <div class="arrow">›</div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- FIREBASE -->
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+    /* ==========================================
+       FIREBASE CONFIG
+    ========================================== */
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+      authDomain: "techbrige-rwanda.firebaseapp.com",
+      projectId: "techbrige-rwanda",
+      storageBucket: "techbrige-rwanda.firebasestorage.app",
+      messagingSenderId: "391783540774",
+      appId: "1:391783540774:web:de825e268d4ed6b2711ee7"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    /* ==========================================
+       NAVIGATION
+    ========================================== */
+
+    window.go = function(page) {
+
+      window.location.href = page;
+
+    };
+
+
+    /* ==========================================
+       MOBILE MENU
+    ========================================== */
+
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const overlay =
+      document.getElementById("overlay");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    mobileMenu.addEventListener("click", () => {
+
+      sidebar.classList.add("open");
+
+      overlay.classList.add("show");
+
+    });
+
+
+    overlay.addEventListener("click", () => {
+
+      sidebar.classList.remove("open");
+
+      overlay.classList.remove("show");
+
+    });
+
+
+    /* ==========================================
+       TODAY
+    ========================================== */
+
+    const todayText =
+      document.getElementById("todayText");
+
+
+    const now = new Date();
+
+    todayText.textContent =
+      now.toLocaleDateString(
+        undefined,
+        {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      );
+
+
+    /* ==========================================
+       HELPERS
+    ========================================== */
+
+    function initials(name) {
+
+      if (!name) return "?";
+
+      const parts =
+        name.trim().split(/\s+/);
+
+      if (parts.length === 1) {
+
+        return parts[0]
+          .substring(0, 2)
+          .toUpperCase();
+
+      }
+
+      return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+      ).toUpperCase();
+
+    }
+
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ==========================================
+       LOAD STUDENT PROFILE
+    ========================================== */
+
+    async function loadStudent(user) {
+
+      try {
+
+        const userRef =
+          doc(db, "users", user.uid);
+
+        const userSnap =
+          await getDoc(userRef);
+
+
+        let fullName =
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "Student";
+
+
+        if (userSnap.exists()) {
+
+          const data = userSnap.data();
+
+          fullName =
+            data.fullName ||
+            `${data.firstName || ""} ${data.lastName || ""}`.trim() ||
+            fullName;
+
+        }
+
+
+        document.getElementById(
+          "welcomeName"
+        ).textContent = fullName.split(" ")[0];
+
+
+        document.getElementById(
+          "sidebarName"
+        ).textContent = fullName;
+
+
+        document.getElementById(
+          "sidebarAvatar"
+        ).textContent = initials(fullName);
+
+
+      } catch (error) {
+
+        console.error(
+          "Profile loading error:",
+          error
+        );
+
+        const fullName =
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "Student";
+
+        document.getElementById(
+          "welcomeName"
+        ).textContent = fullName.split(" ")[0];
+
+        document.getElementById(
+          "sidebarName"
+        ).textContent = fullName;
+
+        document.getElementById(
+          "sidebarAvatar"
+        ).textContent = initials(fullName);
+
+      }
+
+    }
+
+
+    /* ==========================================
+       LOAD ENROLLMENTS
+    ========================================== */
+
+    async function loadCourses(user) {
+
+      const container =
+        document.getElementById(
+          "coursesContainer"
+        );
+
+
+      try {
+
+        const enrollmentQuery =
+          query(
+            collection(
+              db,
+              "courseEnrollments"
+            ),
+            where(
+              "userId",
+              "==",
+              user.uid
+            )
+          );
+
+
+        const snapshot =
+          await getDocs(enrollmentQuery);
+
+
+        const courses =
+          snapshot.docs.map(docSnap => ({
+            id: docSnap.id,
+            ...docSnap.data()
+          }));
+
+
+        document.getElementById(
+          "coursesCount"
+        ).textContent = courses.length;
+
+
+        if (!courses.length) {
+
+          container.innerHTML = `
+            <div class="empty">
+              <div class="empty-icon">▣</div>
+              <div>No courses enrolled yet.</div>
+              <div style="margin-top:7px;color:#68758b;">
+                Explore available courses to start learning.
+              </div>
+            </div>
+          `;
+
+          return;
+
+        }
+
+
+        let totalProgress = 0;
+
+
+        container.innerHTML =
+          courses
+            .slice(0, 5)
+            .map(course => {
+
+              const progress =
+                Math.max(
+                  0,
+                  Math.min(
+                    100,
+                    Number(
+                      course.progress ?? 0
+                    )
+                  )
+                );
+
+
+              totalProgress += progress;
+
+
+              const name =
+                course.courseName ||
+                course.title ||
+                "Course";
+
+
+              return `
+                <div
+                  class="course"
+                  onclick="go('course.html?id=${encodeURIComponent(course.courseId || course.id)}')"
+                  style="cursor:pointer;"
+                >
+
+                  <div class="course-icon">
+                    ▣
+                  </div>
+
+                  <div class="course-info">
+
+                    <div class="course-name">
+                      ${escapeHTML(name)}
+                    </div>
+
+                    <div class="course-meta">
+                      ${escapeHTML(course.status || "Active")}
+                    </div>
+
+                    <div class="progress">
+                      <div
+                        class="progress-bar"
+                        style="width:${progress}%"
+                      ></div>
+                    </div>
+
+                  </div>
+
+                  <div class="course-percent">
+                    ${progress}%
+                  </div>
+
+                </div>
+              `;
+
+            })
+            .join("");
+
+
+        const average =
+          courses.length
+            ? Math.round(
+                totalProgress /
+                Math.min(courses.length, 5)
+              )
+            : 0;
+
+
+        document.getElementById(
+          "completionValue"
+        ).textContent = `${average}%`;
+
+
+      } catch (error) {
+
+        console.error(
+          "Courses loading error:",
+          error
+        );
+
+
+        container.innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">!</div>
+            Unable to load courses right now.
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /* ==========================================
+       LOAD QUIZ ATTEMPTS
+    ========================================== */
+
+    async function loadQuizCount(user) {
+
+      try {
+
+        const q =
+          query(
+            collection(
+              db,
+              "quizAttempts"
+            ),
+            where(
+              "userId",
+              "==",
+              user.uid
+            )
+          );
+
+
+        const snapshot =
+          await getDocs(q);
+
+
+        document.getElementById(
+          "quizCount"
+        ).textContent =
+          snapshot.size;
+
+
+      } catch (error) {
+
+        console.error(
+          "Quiz count error:",
+          error
+        );
+
+        document.getElementById(
+          "quizCount"
+        ).textContent = "0";
+
+      }
+
+    }
+
+
+    /* ==========================================
+       LOAD CERTIFICATES
+    ========================================== */
+
+    async function loadCertificateCount(user) {
+
+      try {
+
+        const q =
+          query(
+            collection(
+              db,
+              "certificates"
+            ),
+            where(
+              "userId",
+              "==",
+              user.uid
+            )
+          );
+
+
+        const snapshot =
+          await getDocs(q);
+
+
+        document.getElementById(
+          "certificateCount"
+        ).textContent =
+          snapshot.size;
+
+
+      } catch (error) {
+
+        console.error(
+          "Certificate count error:",
+          error
+        );
+
+        document.getElementById(
+          "certificateCount"
+        ).textContent = "0";
+
+      }
+
+    }
+
+
+    /* ==========================================
+       AUTH STATE
+    ========================================== */
+
+    onAuthStateChanged(
+      auth,
+      async (user) => {
+
+        if (!user) {
+
+          window.location.replace(
+            "../login.html"
+          );
+
+          return;
+
+        }
+
+
+        await Promise.all([
+
+          loadStudent(user),
+
+          loadCourses(user),
+
+          loadQuizCount(user),
+
+          loadCertificateCount(user)
+
+        ]);
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
+
