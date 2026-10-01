@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b14" />
+
+  <title>TECHBRIDGE RWANDA | Create Account</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: rgba(13, 21, 39, 0.82);
+      --card-2: rgba(20, 32, 56, 0.65);
+      --border: rgba(255,255,255,0.09);
+      --text: #f5f7ff;
+      --muted: #9ca8bd;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --red: #ef4444;
+      --shadow: 0 25px 80px rgba(0,0,0,.45);
+      --radius: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(0,229,255,.12), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(168,85,247,.14), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(59,130,246,.10), transparent 35%),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .16;
+      pointer-events: none;
+    }
+
+    body::before {
+      background: var(--cyan);
+      top: -120px;
+      left: -100px;
+    }
+
+    body::after {
+      background: var(--purple);
+      bottom: -120px;
+      right: -100px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      background: rgba(7, 11, 20, .72);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* LEFT */
+
+    .intro {
+      padding: 55px 45px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(0,229,255,.10),
+          rgba(59,130,246,.05),
+          rgba(168,85,247,.12)
+        );
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 35px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 17px;
+      color: #031016;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      box-shadow: 0 0 30px rgba(0,229,255,.25);
+    }
+
+    .brand-name {
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: .7px;
+    }
+
+    .brand-name span {
+      display: block;
+      color: var(--cyan);
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+
+    .intro h1 {
+      font-size: clamp(34px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -1.8px;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--cyan), #8bdcff, var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .intro p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+      max-width: 430px;
+    }
+
+    .benefits {
+      margin-top: 32px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #dbe4f5;
+      font-size: 14px;
+    }
+
+    .benefit-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(0,229,255,.08);
+      border: 1px solid rgba(0,229,255,.14);
+      color: var(--cyan);
+    }
+
+    /* RIGHT */
+
+    .form-area {
+      padding: 45px;
+      background: rgba(9, 14, 25, .58);
+    }
+
+    .form-header {
+      margin-bottom: 28px;
+    }
+
+    .form-header h2 {
+      font-size: 29px;
+      margin-bottom: 8px;
+    }
+
+    .form-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .alert {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 13px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .alert.error {
+      display: block;
+      color: #fecaca;
+      background: rgba(239,68,68,.09);
+      border: 1px solid rgba(239,68,68,.22);
+    }
+
+    .alert.success {
+      display: block;
+      color: #bbf7d0;
+      background: rgba(34,197,94,.09);
+      border: 1px solid rgba(34,197,94,.22);
+    }
+
+    form {
+      display: grid;
+      gap: 17px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      color: #c9d4e7;
+      font-weight: 700;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 48px;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.035);
+      color: var(--text);
+      outline: none;
+      padding: 0 14px;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(0,229,255,.55);
+      box-shadow: 0 0 0 3px rgba(0,229,255,.08);
+      background: rgba(255,255,255,.05);
+    }
+
+    input::placeholder {
+      color: #68758b;
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    select option {
+      background: #101827;
+      color: white;
+    }
+
+    .password-input {
+      padding-right: 48px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #8794aa;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .password-toggle:hover {
+      color: var(--cyan);
+      background: rgba(255,255,255,.05);
+    }
+
+    .strength {
+      display: none;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      flex: 1;
+      border-radius: 10px;
+      background: rgba(255,255,255,.08);
+      transition: .2s;
+    }
+
+    .strength-text {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .terms input {
+      width: 17px;
+      height: 17px;
+      margin-top: 1px;
+      accent-color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .terms label {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-weight: 400;
+      cursor: pointer;
+    }
+
+    .terms a {
+      color: var(--cyan);
+    }
+
+    .submit-btn {
+      height: 50px;
+      border: 0;
+      border-radius: 14px;
+      color: #031016;
+      font-weight: 900;
+      font-size: 14px;
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      box-shadow: 0 12px 30px rgba(0,229,255,.14);
+      transition: .2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 35px rgba(0,229,255,.20);
+    }
+
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loader {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(3,16,22,.25);
+      border-top-color: #031016;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      color: #65728a;
+      font-size: 11px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: rgba(255,255,255,.08);
+    }
+
+    .login-link {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .login-link a {
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #738097;
+      font-size: 12px;
+    }
+
+    .back-home:hover {
+      color: var(--cyan);
+    }
+
+    @media (max-width: 850px) {
+      .page {
+        grid-template-columns: 1fr;
+        max-width: 650px;
+      }
+
+      .intro {
+        display: none;
+      }
+
+      .form-area {
+        padding: 35px 28px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 12px;
+        align-items: flex-start;
+        padding-top: 18px;
+      }
+
+      .page {
+        border-radius: 22px;
+      }
+
+      .form-area {
+        padding: 28px 20px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .form-header h2 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- LEFT INTRO -->
+    <section class="intro">
+
+      <div class="brand">
+        <div class="logo">TB</div>
+
+        <div class="brand-name">
+          TECHBRIDGE RWANDA
+          <span>LEARN • BUILD • PRACTICE • GROW</span>
+        </div>
+      </div>
+
+      <h1>
+        Start building your
+        <span class="gradient-text">digital future.</span>
+      </h1>
+
+      <p>
+        Create your TechBridge Rwanda student account and start learning
+        computer skills, programming, web development, databases,
+        cybersecurity and artificial intelligence.
+      </p>
+
+      <div class="benefits">
+
+        <div class="benefit">
+          <div class="benefit-icon">✓</div>
+          Structured learning paths
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-icon">✓</div>
+          Practical coding exercises
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-icon">✓</div>
+          Tests, progress and certificates
+        </div>
+
+        <div class="benefit">
+          <div class="benefit-icon">✓</div>
+          AI-powered learning assistance
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FORM -->
+    <section class="form-area">
+
+      <div class="form-header">
+        <h2>Create your account</h2>
+        <p>Join TechBridge Rwanda and begin your learning journey.</p>
+      </div>
+
+      <div id="alert" class="alert"></div>
+
+      <form id="registerForm">
+
+        <div class="row">
+
+          <div class="field">
+            <label for="firstName">First name</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="Enter first name"
+              autocomplete="given-name"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label for="lastName">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Enter last name"
+              autocomplete="family-name"
+              required
+            />
+          </div>
+
+        </div>
+
+
+        <div class="field">
+          <label for="email">Email address</label>
+
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+
+          <input
+            id="phone"
+            type="tel"
+            placeholder="07XXXXXXXX"
+            autocomplete="tel"
+            required
+          />
+        </div>
+
+
+        <div class="field">
+          <label for="education">Education level</label>
+
+          <select id="education" required>
+            <option value="">Select your education level</option>
+            <option value="Secondary School">Secondary School</option>
+            <option value="TVET">TVET</option>
+            <option value="University">University</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+
+        <div class="field">
+          <label for="password">Password</label>
+
+          <div class="input-wrap">
+
+            <input
+              id="password"
+              class="password-input"
+              type="password"
+              placeholder="Create a strong password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+              ◉
+            </button>
+
+          </div>
+
+          <div id="strength" class="strength">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+
+          <div id="strengthText" class="strength-text"></div>
+
+        </div>
+
+
+        <div class="field">
+          <label for="confirmPassword">Confirm password</label>
+
+          <div class="input-wrap">
+
+            <input
+              id="confirmPassword"
+              class="password-input"
+              type="password"
+              placeholder="Confirm your password"
+              autocomplete="new-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="toggleConfirmPassword"
+              aria-label="Show password"
+            >
+              ◉
+            </button>
+
+          </div>
+        </div>
+
+
+        <div class="terms">
+
+          <input
+            id="terms"
+            type="checkbox"
+            required
+          />
+
+          <label for="terms">
+            I agree to use TechBridge Rwanda responsibly and provide
+            accurate account information.
+          </label>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="submit-btn"
+          id="submitBtn"
+        >
+          <span id="submitText">Create Account</span>
+          <span id="loader" class="loader"></span>
+        </button>
+
+      </form>
+
+
+      <div class="divider">ALREADY HAVE AN ACCOUNT?</div>
+
+      <div class="login-link">
+        Already registered?
+        <a href="./login.html">Sign in</a>
+      </div>
+
+      <a class="back-home" href="./index.html">
+        ← Back to TechBridge Rwanda
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- FIREBASE -->
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+    /* =========================================
+       FIREBASE CONFIG
+       ========================================= */
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+      authDomain: "techbrige-rwanda.firebaseapp.com",
+      projectId: "techbrige-rwanda",
+      storageBucket: "techbrige-rwanda.firebasestorage.app",
+      messagingSenderId: "391783540774",
+      appId: "1:391783540774:web:de825e268d4ed6b2711ee7"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    /* =========================================
+       ELEMENTS
+       ========================================= */
+
+    const form = document.getElementById("registerForm");
+
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const email = document.getElementById("email");
+    const phone = document.getElementById("phone");
+    const education = document.getElementById("education");
+
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    const terms = document.getElementById("terms");
+
+    const alertBox = document.getElementById("alert");
+
+    const submitBtn = document.getElementById("submitBtn");
+    const submitText = document.getElementById("submitText");
+    const loader = document.getElementById("loader");
+
+    const strength = document.getElementById("strength");
+    const strengthText = document.getElementById("strengthText");
+
+
+    /* =========================================
+       ALERT
+       ========================================= */
+
+    function showAlert(message, type = "error") {
+
+      alertBox.textContent = message;
+
+      alertBox.className = "alert " + type;
+
+    }
+
+
+    function clearAlert() {
+
+      alertBox.textContent = "";
+
+      alertBox.className = "alert";
+
+    }
+
+
+    /* =========================================
+       PASSWORD VISIBILITY
+       ========================================= */
+
+    function setupPasswordToggle(buttonId, inputId) {
+
+      const button = document.getElementById(buttonId);
+
+      const input = document.getElementById(inputId);
+
+      button.addEventListener("click", () => {
+
+        const isPassword = input.type === "password";
+
+        input.type = isPassword ? "text" : "password";
+
+        button.textContent = isPassword ? "◌" : "◉";
+
+      });
+
+    }
+
+
+    setupPasswordToggle(
+      "togglePassword",
+      "password"
+    );
+
+    setupPasswordToggle(
+      "toggleConfirmPassword",
+      "confirmPassword"
+    );
+
+
+    /* =========================================
+       PASSWORD STRENGTH
+       ========================================= */
+
+    password.addEventListener("input", () => {
+
+      const value = password.value.trim();
+
+      if (!value) {
+
+        strength.style.display = "none";
+
+        strengthText.textContent = "";
+
+        return;
+
+      }
+
+      strength.style.display = "flex";
+
+      let score = 0;
+
+      if (value.length >= 8) score++;
+
+      if (/[A-Z]/.test(value)) score++;
+
+      if (/[0-9]/.test(value)) score++;
+
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+
+
+      const bars = document.querySelectorAll(".strength-bar");
+
+      bars.forEach((bar, index) => {
+
+        bar.style.background =
+          index < score
+            ? "linear-gradient(90deg,#00e5ff,#3b82f6)"
+            : "rgba(255,255,255,.08)";
+
+      });
+
+
+      const messages = [
+        "",
+        "Weak password",
+        "Fair password",
+        "Good password",
+        "Strong password"
+      ];
+
+      strengthText.textContent = messages[score] || "";
+
+    });
+
+
+    /* =========================================
+       FIREBASE ERROR MESSAGES
+       ========================================= */
+
+    function firebaseErrorMessage(error) {
+
+      switch (error.code) {
+
+        case "auth/email-already-in-use":
+          return "This email is already registered. Please sign in instead.";
+
+        case "auth/invalid-email":
+          return "Please enter a valid email address.";
+
+        case "auth/weak-password":
+          return "Your password is too weak. Use at least 8 characters.";
+
+        case "auth/network-request-failed":
+          return "Network error. Please check your internet connection.";
+
+        case "auth/operation-not-allowed":
+          return "Email/password registration is not enabled in Firebase Authentication.";
+
+        default:
+          return error.message || "Registration failed. Please try again.";
+
+      }
+
+    }
+
+
+    /* =========================================
+       LOADING STATE
+       ========================================= */
+
+    function setLoading(loading) {
+
+      submitBtn.disabled = loading;
+
+      if (loading) {
+
+        submitText.style.display = "none";
+
+        loader.style.display = "block";
+
+      } else {
+
+        submitText.style.display = "inline";
+
+        loader.style.display = "none";
+
+      }
+
+    }
+
+
+    /* =========================================
+       FORM SUBMIT
+       ========================================= */
+
+    form.addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      clearAlert();
+
+
+      const first = firstName.value.trim();
+
+      const last = lastName.value.trim();
+
+      const userEmail = email.value.trim();
+
+      const userPhone = phone.value.trim();
+
+      const userEducation = education.value;
+
+      const userPassword = password.value;
+
+      const userConfirmPassword = confirmPassword.value;
+
+
+      /* BASIC VALIDATION */
+
+      if (!first || !last) {
+
+        showAlert("Please enter your first and last name.");
+
+        return;
+
+      }
+
+
+      if (!userEmail) {
+
+        showAlert("Please enter your email address.");
+
+        return;
+
+      }
+
+
+      if (!userPhone) {
+
+        showAlert("Please enter your phone number.");
+
+        return;
+
+      }
+
+
+      if (!userEducation) {
+
+        showAlert("Please select your education level.");
+
+        return;
+
+      }
+
+
+      if (userPassword.length < 8) {
+
+        showAlert("Password must contain at least 8 characters.");
+
+        return;
+
+      }
+
+
+      if (userPassword !== userConfirmPassword) {
+
+        showAlert("Passwords do not match.");
+
+        return;
+
+      }
+
+
+      if (!terms.checked) {
+
+        showAlert("Please accept the account terms before continuing.");
+
+        return;
+
+      }
+
+
+      try {
+
+        setLoading(true);
+
+
+        /* CREATE FIREBASE ACCOUNT */
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            userEmail,
+            userPassword
+          );
+
+
+        const user = credential.user;
+
+
+        /* UPDATE FIREBASE AUTH PROFILE */
+
+        const fullName = `${first} ${last}`.trim();
+
+        await updateProfile(user, {
+          displayName: fullName
+        });
+
+
+        /* CREATE FIRESTORE USER PROFILE */
+
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            uid: user.uid,
+
+            firstName: first,
+
+            lastName: last,
+
+            fullName: fullName,
+
+            email: userEmail,
+
+            phone: userPhone,
+
+            education: userEducation,
+
+            role: "student",
+
+            accountStatus: "active",
+
+            createdAt: serverTimestamp(),
+
+            updatedAt: serverTimestamp()
+          }
+        );
+
+
+        showAlert(
+          "Account created successfully. Opening your student dashboard...",
+          "success"
+        );
+
+
+        /* REDIRECT */
+
+        setTimeout(() => {
+
+          window.location.assign(
+            new URL(
+              "./students/index.html",
+              window.location.href
+            ).href
+          );
+
+        }, 1000);
+
+
+      } catch (error) {
+
+        console.error("Registration error:", error);
+
+        showAlert(
+          firebaseErrorMessage(error),
+          "error"
+        );
+
+        setLoading(false);
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
+
