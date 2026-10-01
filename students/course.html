@@ -1,0 +1,2048 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b14" />
+
+  <title>Course Details | TECHBRIDGE RWANDA</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: rgba(15,24,43,.82);
+      --card2: rgba(20,32,56,.62);
+      --border: rgba(255,255,255,.08);
+      --text: #f5f7ff;
+      --muted: #93a1b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --orange: #f59e0b;
+      --red: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 85% 0%, rgba(0,229,255,.08), transparent 28%),
+        radial-gradient(circle at 20% 100%, rgba(168,85,247,.07), transparent 30%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 250px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      padding: 22px 14px;
+      background: rgba(9,15,27,.95);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 10px 25px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: #031016;
+      font-weight: 950;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+      box-shadow: 0 0 28px rgba(0,229,255,.22);
+    }
+
+    .brand-text {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--cyan);
+      font-size: 8px;
+      letter-spacing: 1.6px;
+      margin-top: 3px;
+    }
+
+    .nav-title {
+      color: #5e6b80;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 15px 12px 8px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 13px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255,255,255,.04);
+    }
+
+    .nav-item.active {
+      color: var(--cyan);
+      background: rgba(0,229,255,.07);
+      border-color: rgba(0,229,255,.13);
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+    }
+
+    .sidebar-user {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--purple),var(--blue));
+    }
+
+    .sidebar-name {
+      max-width: 145px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sidebar-role {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      width: calc(100% - 250px);
+      margin-left: 250px;
+      padding: 22px 28px 50px;
+    }
+
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: white;
+    }
+
+    .back-btn {
+      height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: #bdc8da;
+      font-size: 12px;
+    }
+
+    .back-btn:hover {
+      color: var(--cyan);
+      border-color: rgba(0,229,255,.25);
+    }
+
+    /* =========================
+       COURSE HERO
+    ========================= */
+
+    .course-hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0,229,255,.13);
+      border-radius: 25px;
+      padding: 32px;
+      background:
+        radial-gradient(circle at 90% 15%, rgba(168,85,247,.22), transparent 28%),
+        radial-gradient(circle at 65% 100%, rgba(0,229,255,.11), transparent 35%),
+        linear-gradient(135deg,#0e1c32,#09111f);
+      margin-bottom: 22px;
+    }
+
+    .course-hero::after {
+      content: "</>";
+      position: absolute;
+      right: 35px;
+      bottom: -60px;
+      font-size: 180px;
+      font-weight: 950;
+      color: rgba(255,255,255,.025);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      background: rgba(0,229,255,.08);
+      border: 1px solid rgba(0,229,255,.16);
+      color: var(--cyan);
+    }
+
+    .badge.level {
+      color: #d7c3ff;
+      background: rgba(168,85,247,.08);
+      border-color: rgba(168,85,247,.17);
+    }
+
+    .course-hero h1 {
+      font-size: clamp(29px,4vw,46px);
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+    }
+
+    .course-hero p {
+      color: var(--muted);
+      max-width: 700px;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 13px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: #b7c4d8;
+      font-size: 11px;
+    }
+
+    .hero-meta-item strong {
+      color: white;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 60px;
+      padding: 0 19px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-head h2 {
+      font-size: 15px;
+    }
+
+    .panel-body {
+      padding: 19px;
+    }
+
+    /* =========================
+       LEARNING PATH
+    ========================= */
+
+    .path {
+      display: grid;
+      gap: 0;
+    }
+
+    .path-item {
+      position: relative;
+      display: flex;
+      gap: 14px;
+      padding-bottom: 20px;
+    }
+
+    .path-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .path-line {
+      position: absolute;
+      left: 16px;
+      top: 34px;
+      bottom: 0;
+      width: 1px;
+      background: rgba(0,229,255,.16);
+    }
+
+    .path-item:last-child .path-line {
+      display: none;
+    }
+
+    .path-number {
+      width: 33px;
+      height: 33px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(0,229,255,.08);
+      border: 1px solid rgba(0,229,255,.20);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 900;
+      position: relative;
+      z-index: 2;
+    }
+
+    .path-content {
+      padding-top: 3px;
+    }
+
+    .path-title {
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .path-desc {
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    /* =========================
+       LESSONS
+    ========================= */
+
+    .lessons {
+      display: grid;
+      gap: 9px;
+    }
+
+    .lesson {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .lesson-number {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: var(--cyan);
+      background: rgba(0,229,255,.07);
+      font-size: 11px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .lesson-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .lesson-title {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .lesson-meta {
+      color: var(--muted);
+      font-size: 9px;
+      margin-top: 4px;
+    }
+
+    .lesson-lock {
+      color: #64738a;
+      font-size: 13px;
+    }
+
+    /* =========================
+       ENROLL CARD
+    ========================= */
+
+    .enroll-card {
+      position: sticky;
+      top: 20px;
+    }
+
+    .enroll-body {
+      padding: 21px;
+    }
+
+    .price-label {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .price {
+      font-size: 31px;
+      font-weight: 950;
+      margin-top: 5px;
+    }
+
+    .currency {
+      color: var(--cyan);
+      font-size: 13px;
+      margin-left: 3px;
+    }
+
+    .duration {
+      margin-top: 15px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .duration span:first-child {
+      color: var(--muted);
+    }
+
+    .duration strong {
+      color: white;
+    }
+
+    .enroll-btn {
+      width: 100%;
+      height: 49px;
+      margin-top: 17px;
+      border: 0;
+      border-radius: 13px;
+      background: linear-gradient(90deg,var(--cyan),var(--blue));
+      color: #031016;
+      font-weight: 950;
+      font-size: 13px;
+      box-shadow: 0 12px 30px rgba(0,229,255,.14);
+      transition: .2s;
+    }
+
+    .enroll-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 35px rgba(0,229,255,.22);
+    }
+
+    .enroll-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .secure-note {
+      margin-top: 13px;
+      text-align: center;
+      color: #65748a;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       WHAT YOU GET
+    ========================= */
+
+    .features {
+      margin-top: 18px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #cbd5e5;
+      font-size: 10px;
+    }
+
+    .feature-icon {
+      color: var(--green);
+      font-weight: 900;
+    }
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    .message {
+      display: none;
+      padding: 13px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.success {
+      color: #bbf7d0;
+      background: rgba(34,197,94,.08);
+      border: 1px solid rgba(34,197,94,.18);
+    }
+
+    .message.info {
+      color: #bae6fd;
+      background: rgba(0,229,255,.07);
+      border: 1px solid rgba(0,229,255,.16);
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      min-height: 500px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(255,255,255,.08);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: auto;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    .overlay {
+      display: none;
+    }
+
+    @media (max-width: 1000px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .enroll-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+        z-index: 90;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .course-hero {
+        padding: 23px;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .back-btn {
+        font-size: 10px;
+        padding: 0 10px;
+      }
+
+      .course-hero h1 {
+        font-size: 28px;
+      }
+
+      .hero-meta {
+        gap: 11px;
+      }
+
+      .panel-body {
+        padding: 15px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="logo">TB</div>
+
+      <div class="brand-text">
+        TECHBRIDGE
+        <span>RWANDA</span>
+      </div>
+    </div>
+
+
+    <div class="nav-title">
+      LEARNING
+    </div>
+
+    <nav class="nav">
+
+      <button
+        class="nav-item"
+        onclick="go('index.html')"
+      >
+        <span class="nav-icon">⌂</span>
+        Dashboard
+      </button>
+
+      <button
+        class="nav-item active"
+        onclick="go('courses.html')"
+      >
+        <span class="nav-icon">▣</span>
+        My Courses
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="go('quizzes.html')"
+      >
+        <span class="nav-icon">✓</span>
+        Quizzes
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="go('tests.html')"
+      >
+        <span class="nav-icon">◈</span>
+        Tests
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="go('practical.html')"
+      >
+        <span class="nav-icon">⌘</span>
+        Practical Learning
+      </button>
+
+    </nav>
+
+
+    <div class="nav-title">
+      ACHIEVEMENT
+    </div>
+
+    <nav class="nav">
+
+      <button
+        class="nav-item"
+        onclick="go('certificates.html')"
+      >
+        <span class="nav-icon">◇</span>
+        Certificates
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="go('settings.html')"
+      >
+        <span class="nav-icon">⚙</span>
+        Settings
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-user">
+
+      <div class="avatar" id="avatar">
+        ?
+      </div>
+
+      <div>
+
+        <div
+          class="sidebar-name"
+          id="sidebarName"
+        >
+          Loading...
+        </div>
+
+        <div class="sidebar-role">
+          Student
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="overlay"
+    id="overlay"
+  ></div>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button
+        class="mobile-menu"
+        id="mobileMenu"
+      >
+        ☰
+      </button>
+
+      <button
+        class="back-btn"
+        onclick="go('courses.html')"
+      >
+        ← All Courses
+      </button>
+
+    </header>
+
+
+    <!-- LOADING -->
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      <div>
+        <div class="spinner"></div>
+
+        <div style="margin-top:12px;text-align:center;">
+          Loading course...
+        </div>
+      </div>
+    </div>
+
+
+    <!-- COURSE CONTENT -->
+
+    <div
+      id="courseContent"
+      style="display:none;"
+    >
+
+
+      <!-- COURSE HERO -->
+
+      <section class="course-hero">
+
+        <div class="hero-content">
+
+          <div class="badge-row">
+
+            <span
+              class="badge"
+              id="courseCategory"
+            >
+              COURSE
+            </span>
+
+            <span
+              class="badge level"
+              id="courseLevel"
+            >
+              BEGINNER
+            </span>
+
+          </div>
+
+
+          <h1 id="courseTitle">
+            Course
+          </h1>
+
+
+          <p id="courseDescription">
+            Course description
+          </p>
+
+
+          <div class="hero-meta">
+
+            <div class="hero-meta-item">
+              ◷
+              <strong id="courseDuration">
+                —
+              </strong>
+            </div>
+
+            <div class="hero-meta-item">
+              ▣
+              <strong id="lessonCount">
+                0 Lessons
+              </strong>
+            </div>
+
+            <div class="hero-meta-item">
+              ◈
+              <strong id="courseLevelMeta">
+                —
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- GRID -->
+
+      <section class="content-grid">
+
+
+        <!-- LEFT -->
+
+        <div>
+
+
+          <!-- LEARNING PATH -->
+
+          <div class="panel">
+
+            <div class="panel-head">
+              <h2>Learning Path</h2>
+            </div>
+
+            <div class="panel-body">
+
+              <div
+                class="path"
+                id="learningPath"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- LESSONS -->
+
+          <div
+            class="panel"
+            style="margin-top:18px;"
+          >
+
+            <div class="panel-head">
+
+              <h2>Course Lessons</h2>
+
+              <span
+                id="lessonHeaderCount"
+                style="color:var(--muted);font-size:10px;"
+              >
+                0 lessons
+              </span>
+
+            </div>
+
+
+            <div class="panel-body">
+
+              <div
+                class="lessons"
+                id="lessons"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <aside>
+
+          <div class="panel enroll-card">
+
+            <div class="enroll-body">
+
+              <div class="price-label">
+                Course price
+              </div>
+
+              <div class="price">
+
+                <span id="coursePrice">
+                  0
+                </span>
+
+                <span class="currency">
+                  RWF
+                </span>
+
+              </div>
+
+
+              <div class="duration">
+
+                <span>
+                  Duration
+                </span>
+
+                <strong id="durationSide">
+                  —
+                </strong>
+
+              </div>
+
+
+              <div
+                id="message"
+                class="message"
+              ></div>
+
+
+              <button
+                id="enrollBtn"
+                class="enroll-btn"
+              >
+                Enroll in This Course
+              </button>
+
+
+              <div class="secure-note">
+                Enrollment requires payment approval.
+                Your course becomes available after the
+                payment is verified by TechBridge Rwanda.
+              </div>
+
+
+              <div class="features">
+
+                <div class="feature">
+                  <span class="feature-icon">✓</span>
+                  Structured lessons
+                </div>
+
+                <div class="feature">
+                  <span class="feature-icon">✓</span>
+                  Quizzes and assessments
+                </div>
+
+                <div class="feature">
+                  <span class="feature-icon">✓</span>
+                  Practical tasks
+                </div>
+
+                <div class="feature">
+                  <span class="feature-icon">✓</span>
+                  Progress tracking
+                </div>
+
+                <div class="feature">
+                  <span class="feature-icon">✓</span>
+                  Certificate eligibility
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      query,
+      where,
+      getDocs
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+    /* =========================
+       FIREBASE CONFIG
+    ========================= */
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+      authDomain: "techbrige-rwanda.firebaseapp.com",
+      projectId: "techbrige-rwanda",
+      storageBucket: "techbrige-rwanda.firebasestorage.app",
+      messagingSenderId: "391783540774",
+      appId: "1:391783540774:web:de825e268d4ed6b2711ee7"
+    };
+
+
+    const app =
+      initializeApp(firebaseConfig);
+
+    const auth =
+      getAuth(app);
+
+    const db =
+      getFirestore(app);
+
+
+    /* =========================
+       COURSE DATA
+    ========================= */
+
+    const courses = {
+
+      "computer-basics": {
+        title: "Computer Basics",
+        category: "Computer Skills",
+        level: "Beginner",
+        duration: "4 Weeks",
+        price: 5000,
+
+        description:
+          "Build a strong foundation in computer use. Learn how computers work, manage files and folders, use operating systems, understand the internet and practice essential digital safety.",
+
+        lessons: [
+          "Introduction to Computers",
+          "Computer Hardware & Software",
+          "Operating Systems",
+          "Files and Folders",
+          "Internet & Web Basics",
+          "Digital Safety"
+        ],
+
+        path: [
+          ["Learn", "Understand computer fundamentals and terminology."],
+          ["Practice", "Complete guided computer exercises."],
+          ["Quiz", "Check your understanding after each section."],
+          ["Beginner Test", "Demonstrate your computer fundamentals."],
+          ["Practical Task", "Complete a real-world computer task."],
+          ["Certificate", "Earn your certificate after meeting requirements."]
+        ]
+      },
+
+
+      "programming-foundations": {
+        title: "Programming Foundations",
+        category: "Programming",
+        level: "Beginner",
+        duration: "6 Weeks",
+        price: 7000,
+
+        description:
+          "Learn the core ideas behind programming and develop the problem-solving skills needed before moving into more advanced programming languages.",
+
+        lessons: [
+          "What Is Programming?",
+          "Algorithms & Flowcharts",
+          "Variables & Data Types",
+          "Conditions",
+          "Loops",
+          "Functions",
+          "Arrays & Basic Data Structures",
+          "Problem Solving"
+        ],
+
+        path: [
+          ["Learn", "Understand programming concepts."],
+          ["Practice", "Write small programs and solve exercises."],
+          ["Quiz", "Test each learning section."],
+          ["Beginner Test", "Complete a programming fundamentals assessment."],
+          ["Practical Task", "Build a small programming project."],
+          ["Certificate", "Complete the course requirements."]
+        ]
+      },
+
+
+      "web-development": {
+        title: "Web Development",
+        category: "Web Development",
+        level: "Beginner",
+        duration: "8 Weeks",
+        price: 10000,
+
+        description:
+          "Learn how websites are created using HTML, CSS and JavaScript. Build responsive pages and finish with practical web projects.",
+
+        lessons: [
+          "How the Web Works",
+          "HTML Fundamentals",
+          "Semantic HTML",
+          "CSS Fundamentals",
+          "Responsive Design",
+          "JavaScript Basics",
+          "DOM & Events",
+          "Final Web Project"
+        ],
+
+        path: [
+          ["Learn", "Study HTML, CSS and JavaScript."],
+          ["Build", "Create pages while following guided projects."],
+          ["Quiz", "Check your knowledge."],
+          ["Intermediate Practice", "Solve web development challenges."],
+          ["Practical Project", "Build a complete responsive website."],
+          ["Certificate", "Complete the required assessments."]
+        ]
+      },
+
+
+      "javascript-development": {
+        title: "JavaScript Development",
+        category: "Programming",
+        level: "Intermediate",
+        duration: "8 Weeks",
+        price: 12000,
+
+        description:
+          "Develop stronger JavaScript skills by working with modern syntax, DOM manipulation, APIs, asynchronous programming and application logic.",
+
+        lessons: [
+          "Modern JavaScript Syntax",
+          "Functions & Scope",
+          "Arrays & Objects",
+          "DOM Manipulation",
+          "Events",
+          "Async JavaScript",
+          "APIs & JSON",
+          "JavaScript Project"
+        ],
+
+        path: [
+          ["Review", "Strengthen JavaScript fundamentals."],
+          ["Develop", "Build interactive features."],
+          ["Quiz", "Measure understanding."],
+          ["Intermediate Test", "Complete the technical assessment."],
+          ["Practical Project", "Build a JavaScript application."],
+          ["Certificate", "Meet the course requirements."]
+        ]
+      },
+
+
+      "databases-sql": {
+        title: "Databases & SQL",
+        category: "Databases",
+        level: "Intermediate",
+        duration: "6 Weeks",
+        price: 9000,
+
+        description:
+          "Learn how data is organized and managed using relational databases and SQL. Practice creating tables, relationships and useful queries.",
+
+        lessons: [
+          "Database Concepts",
+          "Tables & Records",
+          "Primary & Foreign Keys",
+          "SQL SELECT Queries",
+          "INSERT, UPDATE & DELETE",
+          "Relationships & Joins",
+          "Database Design"
+        ],
+
+        path: [
+          ["Learn", "Understand database concepts."],
+          ["Practice", "Write SQL queries."],
+          ["Quiz", "Test database knowledge."],
+          ["Intermediate Test", "Complete SQL assessment."],
+          ["Practical Task", "Design a small database."],
+          ["Certificate", "Complete all requirements."]
+        ]
+      },
+
+
+      "cpp-programming": {
+        title: "C++ Programming",
+        category: "Programming",
+        level: "Intermediate",
+        duration: "8 Weeks",
+        price: 12000,
+
+        description:
+          "Learn C++ programming step by step, including functions, arrays, object-oriented programming and structured problem solving.",
+
+        lessons: [
+          "C++ Environment",
+          "Variables & Data Types",
+          "Conditions & Loops",
+          "Functions",
+          "Arrays & Strings",
+          "Pointers Basics",
+          "Classes & Objects",
+          "C++ Project"
+        ],
+
+        path: [
+          ["Learn", "Study C++ programming concepts."],
+          ["Practice", "Solve coding exercises."],
+          ["Quiz", "Check your understanding."],
+          ["Intermediate Test", "Complete programming assessment."],
+          ["Practical Project", "Build a C++ application."],
+          ["Certificate", "Complete the course."]
+        ]
+      },
+
+
+      "cyber-security": {
+        title: "Cyber Security",
+        category: "Cybersecurity",
+        level: "Advanced",
+        duration: "10 Weeks",
+        price: 15000,
+
+        description:
+          "Study cybersecurity foundations, secure authentication, network security, defensive security practices and responsible security principles.",
+
+        lessons: [
+          "Cybersecurity Fundamentals",
+          "Security Principles",
+          "Authentication & Access Control",
+          "Network Security",
+          "Secure Applications",
+          "Data Protection",
+          "Security Monitoring",
+          "Incident Response",
+          "Security Project"
+        ],
+
+        path: [
+          ["Learn", "Understand cybersecurity principles."],
+          ["Practice", "Work through safe defensive exercises."],
+          ["Quiz", "Test security knowledge."],
+          ["Advanced Test", "Complete the assessment."],
+          ["Practical Task", "Solve a defensive security scenario."],
+          ["Certificate", "Complete the required learning path."]
+        ]
+      },
+
+
+      "artificial-intelligence": {
+        title: "Artificial Intelligence",
+        category: "Artificial Intelligence",
+        level: "Advanced",
+        duration: "10 Weeks",
+        price: 15000,
+
+        description:
+          "Explore artificial intelligence, machine learning concepts, data, models, responsible AI and practical AI applications.",
+
+        lessons: [
+          "Introduction to AI",
+          "AI & Machine Learning",
+          "Data Fundamentals",
+          "Training & Testing",
+          "Model Concepts",
+          "Generative AI",
+          "AI Applications",
+          "Responsible AI",
+          "AI Project"
+        ],
+
+        path: [
+          ["Learn", "Understand AI and machine learning concepts."],
+          ["Practice", "Work with guided AI exercises."],
+          ["Quiz", "Check your understanding."],
+          ["Advanced Test", "Complete the AI assessment."],
+          ["Practical Project", "Build an AI-powered project."],
+          ["Certificate", "Complete all course requirements."]
+        ]
+      },
+
+
+      "android-development": {
+        title: "Android App Development",
+        category: "Mobile Development",
+        level: "Advanced",
+        duration: "10 Weeks",
+        price: 15000,
+
+        description:
+          "Learn the foundations of mobile application development and build Android applications through structured lessons and practical projects.",
+
+        lessons: [
+          "Mobile Development Fundamentals",
+          "Android Project Structure",
+          "User Interfaces",
+          "Layouts & Navigation",
+          "Application State",
+          "Data & Storage",
+          "APIs",
+          "Authentication",
+          "Final Android Project"
+        ],
+
+        path: [
+          ["Learn", "Understand Android development concepts."],
+          ["Build", "Create app interfaces."],
+          ["Quiz", "Check your knowledge."],
+          ["Advanced Test", "Complete the assessment."],
+          ["Practical Project", "Build a functional mobile app."],
+          ["Certificate", "Complete the learning requirements."]
+        ]
+      },
+
+
+      "git-github": {
+        title: "Git & GitHub",
+        category: "Developer Tools",
+        level: "Intermediate",
+        duration: "4 Weeks",
+        price: 6000,
+
+        description:
+          "Learn version control with Git and understand how GitHub is used to manage projects, collaborate with developers and maintain code history.",
+
+        lessons: [
+          "Version Control Concepts",
+          "Git Installation & Setup",
+          "Repositories",
+          "Commits",
+          "Branches",
+          "Merging",
+          "GitHub Repositories",
+          "Collaboration Workflow"
+        ],
+
+        path: [
+          ["Learn", "Understand Git and version control."],
+          ["Practice", "Create and manage repositories."],
+          ["Quiz", "Test your knowledge."],
+          ["Intermediate Test", "Complete Git assessment."],
+          ["Practical Task", "Publish a project using GitHub."],
+          ["Certificate", "Complete the course."]
+        ]
+      }
+
+    };
+
+
+    /* =========================
+       URL COURSE ID
+    ========================= */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const courseId =
+      params.get("id");
+
+
+    let selectedCourse = null;
+
+    let currentUser = null;
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function go(page) {
+      window.location.href = page;
+    }
+
+    window.go = go;
+
+
+    function escapeHTML(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    function formatPrice(value) {
+
+      return Number(value)
+        .toLocaleString("en-RW");
+
+    }
+
+
+    function showMessage(text, type="info") {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.className =
+        `message show ${type}`;
+
+    }
+
+
+    /* =========================
+       RENDER COURSE
+    ========================= */
+
+    function renderCourse(course) {
+
+      selectedCourse = course;
+
+
+      document.title =
+        `${course.title} | TECHBRIDGE RWANDA`;
+
+
+      document.getElementById(
+        "courseCategory"
+      ).textContent =
+        course.category;
+
+
+      document.getElementById(
+        "courseLevel"
+      ).textContent =
+        course.level;
+
+
+      document.getElementById(
+        "courseTitle"
+      ).textContent =
+        course.title;
+
+
+      document.getElementById(
+        "courseDescription"
+      ).textContent =
+        course.description;
+
+
+      document.getElementById(
+        "courseDuration"
+      ).textContent =
+        course.duration;
+
+
+      document.getElementById(
+        "durationSide"
+      ).textContent =
+        course.duration;
+
+
+      document.getElementById(
+        "courseLevelMeta"
+      ).textContent =
+        course.level;
+
+
+      document.getElementById(
+        "coursePrice"
+      ).textContent =
+        formatPrice(course.price);
+
+
+      document.getElementById(
+        "lessonCount"
+      ).textContent =
+        `${course.lessons.length} Lessons`;
+
+
+      document.getElementById(
+        "lessonHeaderCount"
+      ).textContent =
+        `${course.lessons.length} lessons`;
+
+
+      /* LEARNING PATH */
+
+      const path =
+        document.getElementById(
+          "learningPath"
+        );
+
+
+      path.innerHTML =
+        course.path
+          .map((item, index) => `
+            <div class="path-item">
+
+              <div class="path-line"></div>
+
+              <div class="path-number">
+                ${index + 1}
+              </div>
+
+              <div class="path-content">
+
+                <div class="path-title">
+                  ${escapeHTML(item[0])}
+                </div>
+
+                <div class="path-desc">
+                  ${escapeHTML(item[1])}
+                </div>
+
+              </div>
+
+            </div>
+          `)
+          .join("");
+
+
+      /* LESSONS */
+
+      const lessons =
+        document.getElementById(
+          "lessons"
+        );
+
+
+      lessons.innerHTML =
+        course.lessons
+          .map((lesson, index) => `
+            <div class="lesson">
+
+              <div class="lesson-number">
+                ${String(index + 1).padStart(2,"0")}
+              </div>
+
+              <div class="lesson-info">
+
+                <div class="lesson-title">
+                  ${escapeHTML(lesson)}
+                </div>
+
+                <div class="lesson-meta">
+                  Lesson ${index + 1}
+                </div>
+
+              </div>
+
+              <div class="lesson-lock">
+                🔒
+              </div>
+
+            </div>
+          `)
+          .join("");
+
+
+      document.getElementById(
+        "loading"
+      ).style.display =
+        "none";
+
+
+      document.getElementById(
+        "courseContent"
+      ).style.display =
+        "block";
+
+    }
+
+
+    /* =========================
+       USER
+    ========================= */
+
+    async function loadUser(user) {
+
+      try {
+
+        const snap =
+          await getDoc(
+            doc(
+              db,
+              "users",
+              user.uid
+            )
+          );
+
+
+        let name =
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "Student";
+
+
+        if (snap.exists()) {
+
+          const data =
+            snap.data();
+
+          name =
+            data.fullName ||
+            `${data.firstName || ""} ${data.lastName || ""}`.trim() ||
+            name;
+
+        }
+
+
+        document.getElementById(
+          "sidebarName"
+        ).textContent =
+          name;
+
+
+        document.getElementById(
+          "avatar"
+        ).textContent =
+          name
+            .trim()
+            .split(/\s+/)
+            .slice(0,2)
+            .map(x => x[0])
+            .join("")
+            .toUpperCase();
+
+      } catch (error) {
+
+        console.error(
+          "User loading error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       CHECK ENROLLMENT
+    ========================= */
+
+    async function checkEnrollment(user) {
+
+      if (!selectedCourse) return;
+
+
+      try {
+
+        const q =
+          query(
+            collection(
+              db,
+              "courseEnrollments"
+            ),
+            where(
+              "userId",
+              "==",
+              user.uid
+            ),
+            where(
+              "courseId",
+              "==",
+              courseId
+            )
+          );
+
+
+        const snapshot =
+          await getDocs(q);
+
+
+        const button =
+          document.getElementById(
+            "enrollBtn"
+          );
+
+
+        if (!snapshot.empty) {
+
+          const enrollment =
+            snapshot.docs[0].data();
+
+
+          if (
+            enrollment.status ===
+            "active"
+          ) {
+
+            button.textContent =
+              "Continue Course";
+
+            button.onclick = () => {
+
+              window.location.href =
+                `lesson.html?courseId=${encodeURIComponent(courseId)}`;
+
+            };
+
+            showMessage(
+              "You are already enrolled in this course.",
+              "success"
+            );
+
+          } else {
+
+            button.textContent =
+              "Payment Pending";
+
+            button.disabled = true;
+
+            showMessage(
+              "Your enrollment is waiting for payment approval.",
+              "info"
+            );
+
+          }
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Enrollment check error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       ENROLL
+    ========================= */
+
+    document.getElementById(
+      "enrollBtn"
+    ).addEventListener(
+      "click",
+      () => {
+
+        if (!currentUser) {
+
+          window.location.href =
+            "../login.html";
+
+          return;
+
+        }
+
+
+        if (!selectedCourse) {
+
+          return;
+
+        }
+
+
+        /*
+          Do NOT create an enrollment
+          directly from this page.
+
+          The next page will collect:
+          - duration
+          - payment method
+          - transaction reference
+
+          Then create a payment request.
+        */
+
+        window.location.href =
+          `enroll.html?courseId=${encodeURIComponent(courseId)}`;
+
+      }
+    );
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    const sidebar =
+      document.getElementById(
+        "sidebar"
+      );
+
+    const overlay =
+      document.getElementById(
+        "overlay"
+      );
+
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenu"
+      );
+
+
+    mobileMenu.addEventListener(
+      "click",
+      () => {
+
+        sidebar.classList.add(
+          "open"
+        );
+
+        overlay.classList.add(
+          "show"
+        );
+
+      }
+    );
+
+
+    overlay.addEventListener(
+      "click",
+      () => {
+
+        sidebar.classList.remove(
+          "open"
+        );
+
+        overlay.classList.remove(
+          "show"
+        );
+
+      }
+    );
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    onAuthStateChanged(
+      auth,
+      async user => {
+
+        if (!user) {
+
+          window.location.replace(
+            "../login.html"
+          );
+
+          return;
+
+        }
+
+
+        currentUser = user;
+
+
+        await loadUser(user);
+
+
+        /* INVALID COURSE */
+
+        if (
+          !courseId ||
+          !courses[courseId]
+        ) {
+
+          document.getElementById(
+            "loading"
+          ).innerHTML = `
+            <div style="text-align:center;">
+              <div style="font-size:35px;margin-bottom:12px;">
+                !
+              </div>
+
+              <strong>
+                Course not found
+              </strong>
+
+              <div style="margin-top:8px;">
+                <button
+                  class="back-btn"
+                  style="margin-top:15px;"
+                  onclick="go('courses.html')"
+                >
+                  ← Back to Courses
+                </button>
+              </div>
+            </div>
+          `;
+
+          return;
+
+        }
+
+
+        renderCourse(
+          courses[courseId]
+        );
+
+
+        await checkEnrollment(user);
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
+
