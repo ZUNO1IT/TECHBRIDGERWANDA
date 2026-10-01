@@ -1,0 +1,1509 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECHBRIDGE RWANDA — Quizzes</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #070b14;
+      --panel: #0d1527;
+      --panel2: #111c31;
+      --border: rgba(255,255,255,.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(0,229,255,.08), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(168,85,247,.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 260px;
+      padding: 22px 15px;
+      background: rgba(13,21,39,.94);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 10px 25px;
+    }
+
+    .brand-logo {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: #041018;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .nav-title {
+      padding: 12px;
+      color: #64748b;
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px;
+      border-radius: 12px;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--cyan);
+      background: rgba(0,229,255,.08);
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      bottom: 18px;
+    }
+
+    .logout {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(239,68,68,.18);
+      border-radius: 12px;
+      color: #fca5a5;
+      background: rgba(239,68,68,.07);
+      font-weight: 700;
+    }
+
+    .main {
+      width: calc(100% - 260px);
+      margin-left: 260px;
+      padding: 25px;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .topbar h1 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .student-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #041018;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--cyan),var(--purple));
+    }
+
+    .student-profile small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      color: white;
+      background: rgba(255,255,255,.04);
+    }
+
+    .search:focus {
+      border-color: rgba(0,229,255,.45);
+    }
+
+    .filter {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      color: white;
+      background: var(--panel2);
+    }
+
+    .filter option {
+      background: var(--panel2);
+    }
+
+    .loading {
+      padding: 70px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .spinner {
+      width: 35px;
+      height: 35px;
+      margin: 0 auto 15px;
+      border: 3px solid rgba(255,255,255,.08);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(290px,1fr));
+      gap: 15px;
+    }
+
+    .quiz-card {
+      position: relative;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.018)
+        );
+      transition: .2s;
+    }
+
+    .quiz-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0,229,255,.2);
+    }
+
+    .quiz-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .quiz-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      font-size: 19px;
+      background: rgba(0,229,255,.08);
+    }
+
+    .status {
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .status.available {
+      color: #86efac;
+      background: rgba(34,197,94,.1);
+    }
+
+    .status.completed {
+      color: #93c5fd;
+      background: rgba(59,130,246,.1);
+    }
+
+    .status.failed {
+      color: #fca5a5;
+      background: rgba(239,68,68,.1);
+    }
+
+    .quiz-card h2 {
+      font-size: 17px;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      min-height: 39px;
+      margin-bottom: 15px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 17px;
+    }
+
+    .badge {
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #cbd5e1;
+      background: rgba(255,255,255,.05);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .score-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .score-box span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .score-box strong {
+      color: var(--cyan);
+      font-size: 17px;
+    }
+
+    .quiz-btn {
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 11px;
+      color: #041018;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .quiz-btn.secondary {
+      color: #dbeafe;
+      border: 1px solid rgba(59,130,246,.2);
+      background: rgba(59,130,246,.09);
+    }
+
+    .empty {
+      padding: 60px 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255,255,255,.025);
+    }
+
+    .empty-icon {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .error {
+      padding: 25px;
+      border: 1px solid rgba(239,68,68,.2);
+      border-radius: 16px;
+      color: #fca5a5;
+      background: rgba(239,68,68,.07);
+      text-align: center;
+    }
+
+    @media(max-width:800px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 18px;
+      }
+
+      .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .menu-btn {
+        padding: 9px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: white;
+        background: rgba(255,255,255,.05);
+        font-size: 18px;
+      }
+
+      .topbar {
+        display: block;
+      }
+
+      .student-profile {
+        width: fit-content;
+        margin-top: 15px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-logo">TB</div>
+
+      <div>
+        <strong>TECHBRIDGE</strong>
+        <span>RWANDA • STUDENT</span>
+      </div>
+    </div>
+
+    <div class="nav-title">
+      Learning
+    </div>
+
+    <nav class="nav">
+
+      <a href="./index.html">
+        🏠 Dashboard
+      </a>
+
+      <a href="./courses.html">
+        📚 Courses
+      </a>
+
+      <a href="./quizzes.html" class="active">
+        📝 Quizzes
+      </a>
+
+      <a href="./tests.html">
+        🧪 Tests
+      </a>
+
+      <a href="./practical.html">
+        💻 Practical
+      </a>
+
+    </nav>
+
+    <div class="nav-title">
+      Academic
+    </div>
+
+    <nav class="nav">
+
+      <a href="./certificates.html">
+        🏆 Certificates
+      </a>
+
+      <a href="./settings.html">
+        ⚙️ Settings
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="logout" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="mobile-header">
+
+      <strong>
+        TECHBRIDGE RWANDA
+      </strong>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+      >
+        ☰
+      </button>
+
+    </div>
+
+
+    <header class="topbar">
+
+      <div>
+        <h1>Quizzes</h1>
+
+        <p>
+          Check your understanding and track your results.
+        </p>
+      </div>
+
+
+      <div class="student-profile">
+
+        <div class="avatar" id="avatar">
+          S
+        </div>
+
+        <div>
+
+          <strong id="studentName">
+            Student
+          </strong>
+
+          <small>
+            Learning Account
+          </small>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+      <input
+        type="search"
+        class="search"
+        id="searchInput"
+        placeholder="Search quizzes..."
+      >
+
+      <select
+        class="filter"
+        id="filterSelect"
+      >
+
+        <option value="all">
+          All Quizzes
+        </option>
+
+        <option value="available">
+          Available
+        </option>
+
+        <option value="completed">
+          Completed
+        </option>
+
+        <option value="passed">
+          Passed
+        </option>
+
+        <option value="failed">
+          Not Passed
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+      id="loading"
+      class="loading"
+    >
+
+      <div class="spinner"></div>
+
+      Loading quizzes...
+
+    </div>
+
+
+    <!-- QUIZ GRID -->
+
+    <div
+      id="quizGrid"
+      class="quiz-grid"
+      style="display:none;"
+    ></div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      id="empty"
+      class="empty"
+      style="display:none;"
+    >
+
+      <div class="empty-icon">
+        📝
+      </div>
+
+      <h3>
+        No quizzes found
+      </h3>
+
+      <p style="margin-top:8px;">
+        Published quizzes will appear here.
+      </p>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      id="error"
+      class="error"
+      style="display:none;"
+    >
+
+      <strong>
+        Unable to load quizzes
+      </strong>
+
+      <p
+        id="errorMessage"
+        style="margin-top:8px;"
+      ></p>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+  // ==========================================
+  // FIREBASE
+  // ==========================================
+
+  import {
+    initializeApp
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    where
+  } from
+    "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyAIeekQOHDHt--r4KbPU8YOgueG3P1249g",
+
+    authDomain:
+      "techbrige-rwanda.firebaseapp.com",
+
+    projectId:
+      "techbrige-rwanda",
+
+    storageBucket:
+      "techbrige-rwanda.firebasestorage.app",
+
+    messagingSenderId:
+      "391783540774",
+
+    appId:
+      "1:391783540774:web:de825e268d4ed6b2711ee7"
+
+  };
+
+
+  const app =
+    initializeApp(firebaseConfig);
+
+  const auth =
+    getAuth(app);
+
+  const db =
+    getFirestore(app);
+
+
+  // ==========================================
+  // ELEMENTS
+  // ==========================================
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const menuBtn =
+    document.getElementById("menuBtn");
+
+  const logoutBtn =
+    document.getElementById("logoutBtn");
+
+  const studentName =
+    document.getElementById("studentName");
+
+  const avatar =
+    document.getElementById("avatar");
+
+  const loading =
+    document.getElementById("loading");
+
+  const quizGrid =
+    document.getElementById("quizGrid");
+
+  const empty =
+    document.getElementById("empty");
+
+  const error =
+    document.getElementById("error");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const filterSelect =
+    document.getElementById("filterSelect");
+
+
+  let currentUser = null;
+
+  let quizzes = [];
+
+  let attempts = new Map();
+
+
+  // ==========================================
+  // MOBILE MENU
+  // ==========================================
+
+  menuBtn.addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.toggle("open");
+
+    }
+  );
+
+
+  // ==========================================
+  // AUTH
+  // ==========================================
+
+  onAuthStateChanged(
+    auth,
+    async (user) => {
+
+      if (!user) {
+
+        window.location.href =
+          "../login.html";
+
+        return;
+      }
+
+
+      currentUser =
+        user;
+
+
+      const name =
+        user.displayName ||
+        user.email?.split("@")[0] ||
+        "Student";
+
+
+      studentName.textContent =
+        name;
+
+
+      avatar.textContent =
+        name
+          .charAt(0)
+          .toUpperCase();
+
+
+      await loadData();
+
+    }
+  );
+
+
+  // ==========================================
+  // LOAD QUIZZES + ATTEMPTS
+  // ==========================================
+
+  async function loadData() {
+
+    try {
+
+      loading.style.display =
+        "block";
+
+      quizGrid.style.display =
+        "none";
+
+      empty.style.display =
+        "none";
+
+      error.style.display =
+        "none";
+
+
+      // ----------------------------------------
+      // LOAD PUBLISHED QUIZZES
+      // ----------------------------------------
+
+      const quizzesRef =
+        collection(
+          db,
+          "quizzes"
+        );
+
+
+      const quizSnapshot =
+        await getDocs(
+          quizzesRef
+        );
+
+
+      quizzes =
+        quizSnapshot.docs
+          .map(
+            item => ({
+              id: item.id,
+              ...item.data()
+            })
+          )
+          .filter(
+            quiz =>
+              !quiz.status ||
+              quiz.status === "published"
+          );
+
+
+      // ----------------------------------------
+      // LOAD CURRENT USER ATTEMPTS
+      // ----------------------------------------
+
+      const attemptsQuery =
+        query(
+          collection(
+            db,
+            "quizAttempts"
+          ),
+          where(
+            "userId",
+            "==",
+            currentUser.uid
+          )
+        );
+
+
+      const attemptsSnapshot =
+        await getDocs(
+          attemptsQuery
+        );
+
+
+      attempts =
+        new Map();
+
+
+      attemptsSnapshot.docs.forEach(
+        item => {
+
+          const data =
+            item.data();
+
+
+          const quizId =
+            data.quizId;
+
+
+          if (!quizId) {
+            return;
+          }
+
+
+          const previous =
+            attempts.get(
+              quizId
+            );
+
+
+          const previousTime =
+            previous?.completedAt?.toMillis?.() ||
+            0;
+
+
+          const currentTime =
+            data.completedAt?.toMillis?.() ||
+            0;
+
+
+          if (
+            !previous ||
+            currentTime >= previousTime
+          ) {
+
+            attempts.set(
+              quizId,
+              {
+                id: item.id,
+                ...data
+              }
+            );
+
+          }
+
+        }
+      );
+
+
+      loading.style.display =
+        "none";
+
+
+      renderQuizzes();
+
+
+    } catch (err) {
+
+      console.error(err);
+
+      loading.style.display =
+        "none";
+
+      error.style.display =
+        "block";
+
+
+      errorMessage.textContent =
+        getFriendlyError(err);
+
+    }
+
+  }
+
+
+  // ==========================================
+  // RENDER
+  // ==========================================
+
+  function renderQuizzes() {
+
+    const search =
+      searchInput.value
+        .trim()
+        .toLowerCase();
+
+
+    const filter =
+      filterSelect.value;
+
+
+    const filtered =
+      quizzes.filter(
+        quiz => {
+
+          const title =
+            String(
+              quiz.title || ""
+            ).toLowerCase();
+
+
+          const description =
+            String(
+              quiz.description || ""
+            ).toLowerCase();
+
+
+          const course =
+            String(
+              quiz.courseId || ""
+            ).toLowerCase();
+
+
+          const matchesSearch =
+            !search ||
+            title.includes(search) ||
+            description.includes(search) ||
+            course.includes(search);
+
+
+          const attempt =
+            attempts.get(
+              quiz.id
+            );
+
+
+          const completed =
+            Boolean(attempt);
+
+
+          const passed =
+            completed &&
+            attempt.passed === true;
+
+
+          const failed =
+            completed &&
+            attempt.passed === false;
+
+
+          let matchesFilter =
+            true;
+
+
+          if (
+            filter ===
+            "available"
+          ) {
+
+            matchesFilter =
+              !completed;
+
+          }
+
+
+          if (
+            filter ===
+            "completed"
+          ) {
+
+            matchesFilter =
+              completed;
+
+          }
+
+
+          if (
+            filter ===
+            "passed"
+          ) {
+
+            matchesFilter =
+              passed;
+
+          }
+
+
+          if (
+            filter ===
+            "failed"
+          ) {
+
+            matchesFilter =
+              failed;
+
+          }
+
+
+          return (
+            matchesSearch &&
+            matchesFilter
+          );
+
+        }
+      );
+
+
+    quizGrid.innerHTML =
+      "";
+
+
+    if (!filtered.length) {
+
+      quizGrid.style.display =
+        "none";
+
+      empty.style.display =
+        "block";
+
+      return;
+
+    }
+
+
+    empty.style.display =
+      "none";
+
+    quizGrid.style.display =
+      "grid";
+
+
+    filtered.forEach(
+      quiz => {
+
+        quizGrid.appendChild(
+          createQuizCard(
+            quiz
+          )
+        );
+
+      }
+    );
+
+  }
+
+
+  // ==========================================
+  // CREATE CARD
+  // ==========================================
+
+  function createQuizCard(
+    quiz
+  ) {
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+
+    const attempt =
+      attempts.get(
+        quiz.id
+      );
+
+
+    const completed =
+      Boolean(attempt);
+
+
+    const passed =
+      completed &&
+      attempt.passed === true;
+
+
+    const statusClass =
+      !completed
+        ? "available"
+        : passed
+          ? "completed"
+          : "failed";
+
+
+    const statusText =
+      !completed
+        ? "AVAILABLE"
+        : passed
+          ? "PASSED"
+          : "NOT PASSED";
+
+
+    const score =
+      completed
+        ? `${Number(attempt.score || 0)}%`
+        : "—";
+
+
+    const questionCount =
+      Array.isArray(
+        quiz.questions
+      )
+        ? quiz.questions.length
+        : Number(
+            quiz.questionCount || 0
+          );
+
+
+    const level =
+      quiz.level ||
+      "Beginner";
+
+
+    const time =
+      quiz.timeLimit
+        ? `${quiz.timeLimit} min`
+        : "No timer";
+
+
+    card.className =
+      "quiz-card";
+
+
+    card.innerHTML = `
+
+      <div class="quiz-top">
+
+        <div class="quiz-icon">
+          📝
+        </div>
+
+        <span
+          class="status ${statusClass}"
+        >
+          ${statusText}
+        </span>
+
+      </div>
+
+
+      <h2>
+        ${escapeHtml(
+          quiz.title ||
+          "Untitled Quiz"
+        )}
+      </h2>
+
+
+      <p class="description">
+        ${escapeHtml(
+          quiz.description ||
+          "Complete this quiz to test your understanding."
+        )}
+      </p>
+
+
+      <div class="badges">
+
+        <span class="badge">
+          ${escapeHtml(
+            String(
+              quiz.courseId ||
+              "General"
+            )
+          )}
+        </span>
+
+        <span class="badge">
+          ${escapeHtml(
+            String(level)
+          )}
+        </span>
+
+        <span class="badge">
+          ${questionCount} Questions
+        </span>
+
+        <span class="badge">
+          ${time}
+        </span>
+
+      </div>
+
+
+      ${
+        completed
+          ? `
+
+            <div class="score-box">
+
+              <span>
+                Latest Score
+              </span>
+
+              <strong>
+                ${score}
+              </strong>
+
+            </div>
+
+          `
+          : `
+
+            <div class="score-box">
+
+              <span>
+                Passing Score
+              </span>
+
+              <strong>
+                ${Number(
+                  quiz.passingScore ?? 50
+                )}%
+              </strong>
+
+            </div>
+
+          `
+      }
+
+
+      <button
+        class="quiz-btn ${completed ? "secondary" : ""}"
+        data-quiz-id="${escapeHtml(quiz.id)}"
+      >
+
+        ${
+          !completed
+            ? "Start Quiz →"
+            : "Retake Quiz →"
+        }
+
+      </button>
+
+    `;
+
+
+    const button =
+      card.querySelector(
+        ".quiz-btn"
+      );
+
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        window.location.href =
+          `./quiz.html?id=${encodeURIComponent(quiz.id)}`;
+
+      }
+    );
+
+
+    return card;
+
+  }
+
+
+  // ==========================================
+  // SEARCH / FILTER
+  // ==========================================
+
+  searchInput.addEventListener(
+    "input",
+    renderQuizzes
+  );
+
+
+  filterSelect.addEventListener(
+    "change",
+    renderQuizzes
+  );
+
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+      await signOut(auth);
+
+      window.location.href =
+        "../login.html";
+
+    }
+  );
+
+
+  // ==========================================
+  // ERROR
+  // ==========================================
+
+  function getFriendlyError(
+    err
+  ) {
+
+    if (
+      err?.code ===
+      "permission-denied"
+    ) {
+
+      return "You do not have permission to access quiz data.";
+
+    }
+
+
+    if (
+      err?.code ===
+      "failed-precondition"
+    ) {
+
+      return "Firestore needs an index for this query. Check the Firebase console.";
+
+    }
+
+
+    if (
+      err?.code ===
+      "unavailable"
+    ) {
+
+      return "Firebase is temporarily unavailable. Check your internet connection.";
+
+    }
+
+
+    return (
+      err?.message ||
+      "An unexpected error occurred."
+    );
+
+  }
+
+
+  // ==========================================
+  // ESCAPE HTML
+  // ==========================================
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(value)
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+</script>
+
+</body>
+</html>
+
