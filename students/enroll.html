@@ -1,0 +1,1482 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enroll | TECHBRIDGE RWANDA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050812;
+      --panel: rgba(13, 21, 39, 0.78);
+      --panel-2: rgba(20, 32, 56, 0.72);
+      --border: rgba(255,255,255,.09);
+      --text: #f4f8ff;
+      --muted: #91a0b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --red: #ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(0,229,255,.10), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(168,85,247,.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      padding: 22px 16px;
+      background: rgba(5,8,18,.92);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 32px;
+      padding: 0 8px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
+      color: white;
+      box-shadow: 0 0 25px rgba(0,229,255,.22);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .nav-title {
+      color: #68758d;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      margin: 20px 10px 9px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      margin: 4px 0;
+      color: #aeb9cc;
+      border-radius: 12px;
+      transition: .2s;
+      font-size: 13px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: white;
+      background: rgba(0,229,255,.08);
+    }
+
+    .nav-link.active {
+      border: 1px solid rgba(0,229,255,.14);
+    }
+
+    .nav-icon {
+      width: 28px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .sidebar-bottom {
+      position: absolute;
+      bottom: 22px;
+      left: 16px;
+      right: 16px;
+    }
+
+    .back-home {
+      display: block;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .topbar h1 {
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .user-pill {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      color: #cbd5e1;
+      font-size: 12px;
+    }
+
+    .content {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .course-card {
+      position: sticky;
+      top: 25px;
+      height: fit-content;
+    }
+
+    .course-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: linear-gradient(
+        135deg,
+        rgba(0,229,255,.18),
+        rgba(168,85,247,.18)
+      );
+      border: 1px solid rgba(0,229,255,.15);
+      margin-bottom: 18px;
+    }
+
+    .course-card h2 {
+      font-size: 23px;
+      margin-bottom: 9px;
+    }
+
+    .course-description {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .course-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .meta-box {
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .meta-box small {
+      display: block;
+      color: #718096;
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .meta-box strong {
+      font-size: 13px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      margin-bottom: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 19px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: #c5d0df;
+      margin-bottom: 8px;
+    }
+
+    .duration-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .duration-option {
+      position: relative;
+    }
+
+    .duration-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .duration-label {
+      display: block;
+      padding: 15px 10px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .duration-label strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .duration-label span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .duration-option input:checked + .duration-label {
+      border-color: rgba(0,229,255,.65);
+      background: rgba(0,229,255,.08);
+      box-shadow: 0 0 20px rgba(0,229,255,.08);
+    }
+
+    .payment-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .payment-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .payment-label {
+      display: block;
+      text-align: center;
+      padding: 14px 8px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      cursor: pointer;
+      background: rgba(255,255,255,.025);
+      transition: .2s;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .payment-option input:checked + .payment-label {
+      border-color: rgba(168,85,247,.7);
+      background: rgba(168,85,247,.09);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.035);
+      color: white;
+      padding: 14px;
+      border-radius: 13px;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: rgba(0,229,255,.55);
+      box-shadow: 0 0 0 3px rgba(0,229,255,.06);
+    }
+
+    .reference-help {
+      color: #718096;
+      font-size: 10px;
+      margin-top: 7px;
+      line-height: 1.5;
+    }
+
+    .summary {
+      margin-top: 22px;
+      padding: 17px;
+      border: 1px solid rgba(0,229,255,.12);
+      background: rgba(0,229,255,.035);
+      border-radius: 15px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 6px 0;
+      font-size: 12px;
+      color: #aeb9cc;
+    }
+
+    .summary-row.total {
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+      padding-top: 14px;
+      color: white;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: 0;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 14px;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
+      box-shadow: 0 12px 30px rgba(59,130,246,.18);
+      transition: .2s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      display: none;
+      padding: 13px;
+      border-radius: 13px;
+      margin-bottom: 17px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      color: #fecaca;
+      background: rgba(239,68,68,.08);
+      border: 1px solid rgba(239,68,68,.2);
+    }
+
+    .message.success {
+      color: #bbf7d0;
+      background: rgba(34,197,94,.08);
+      border: 1px solid rgba(34,197,94,.2);
+    }
+
+    .notice {
+      margin-top: 17px;
+      padding: 14px;
+      border-radius: 13px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .loading {
+      text-align: center;
+      color: var(--muted);
+      padding: 50px 20px;
+    }
+
+    .mobile-menu {
+      display: none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: white;
+      border-radius: 11px;
+      padding: 9px 12px;
+      cursor: pointer;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .course-card {
+        position: static;
+      }
+    }
+
+    @media(max-width: 550px) {
+      .main {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .topbar h1 {
+        font-size: 21px;
+      }
+
+      .user-pill {
+        display: none;
+      }
+
+      .duration-options,
+      .payment-options {
+        grid-template-columns: 1fr;
+      }
+
+      .course-meta {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-logo">TB</div>
+      <div class="brand-text">
+        <strong>TECHBRIDGE</strong>
+        <span>RWANDA</span>
+      </div>
+    </div>
+
+    <div class="nav-title">Learning</div>
+
+    <a href="./index.html" class="nav-link">
+      <span class="nav-icon">⌂</span>
+      Dashboard
+    </a>
+
+    <a href="./courses.html" class="nav-link active">
+      <span class="nav-icon">▣</span>
+      Courses
+    </a>
+
+    <a href="./quizzes.html" class="nav-link">
+      <span class="nav-icon">✓</span>
+      Quizzes
+    </a>
+
+    <a href="./tests.html" class="nav-link">
+      <span class="nav-icon">◆</span>
+      Tests
+    </a>
+
+    <div class="nav-title">Practice</div>
+
+    <a href="./practical.html" class="nav-link">
+      <span class="nav-icon">⌘</span>
+      Practical
+    </a>
+
+    <a href="./ai-assistant.html" class="nav-link">
+      <span class="nav-icon">✦</span>
+      AI Assistant
+    </a>
+
+    <div class="nav-title">Progress</div>
+
+    <a href="./certificates.html" class="nav-link">
+      <span class="nav-icon">◇</span>
+      Certificates
+    </a>
+
+    <a href="./settings.html" class="nav-link">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </a>
+
+    <div class="sidebar-bottom">
+      <a href="../index.html" class="back-home">
+        ← Back to Website
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <button class="mobile-menu" id="menuBtn">☰</button>
+        <h1>Enroll in Course</h1>
+        <p>Choose your learning duration and submit your payment request.</p>
+      </div>
+
+      <div class="user-pill" id="userEmail">
+        Loading...
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div id="loading" class="loading">
+        Loading course information...
+      </div>
+
+      <div id="mainContent" class="grid" style="display:none;">
+
+        <!-- COURSE INFO -->
+        <section class="card course-card">
+
+          <div class="course-icon" id="courseIcon">💻</div>
+
+          <h2 id="courseTitle">Course</h2>
+
+          <p class="course-description" id="courseDescription">
+            Course description
+          </p>
+
+          <div class="course-meta">
+
+            <div class="meta-box">
+              <small>Level</small>
+              <strong id="courseLevel">Beginner</strong>
+            </div>
+
+            <div class="meta-box">
+              <small>Lessons</small>
+              <strong id="courseLessons">0</strong>
+            </div>
+
+            <div class="meta-box">
+              <small>Course Duration</small>
+              <strong id="courseDuration">—</strong>
+            </div>
+
+            <div class="meta-box">
+              <small>Base Price</small>
+              <strong id="coursePrice">RWF 0</strong>
+            </div>
+
+          </div>
+
+          <div class="notice">
+            <strong>How enrollment works</strong><br><br>
+            1. Choose your learning duration.<br>
+            2. Select your payment method.<br>
+            3. Make the payment using the provided method.<br>
+            4. Enter your transaction reference.<br>
+            5. Submit the request.<br>
+            6. Admin verifies your payment.<br>
+            7. Your course becomes available after approval.
+          </div>
+
+        </section>
+
+        <!-- ENROLL FORM -->
+        <section class="card">
+
+          <h2 class="section-title">Enrollment Details</h2>
+
+          <div id="message" class="message"></div>
+
+          <form id="enrollForm">
+
+            <!-- DURATION -->
+            <div class="form-group">
+
+              <label>Choose learning duration</label>
+
+              <div class="duration-options">
+
+                <div class="duration-option">
+                  <input
+                    type="radio"
+                    name="duration"
+                    id="week"
+                    value="1 week"
+                    data-multiplier="1"
+                    checked
+                  />
+
+                  <label class="duration-label" for="week">
+                    <strong>1 Week</strong>
+                    <span>Starter</span>
+                  </label>
+                </div>
+
+                <div class="duration-option">
+                  <input
+                    type="radio"
+                    name="duration"
+                    id="month"
+                    value="1 month"
+                    data-multiplier="2.5"
+                  />
+
+                  <label class="duration-label" for="month">
+                    <strong>1 Month</strong>
+                    <span>Standard</span>
+                  </label>
+                </div>
+
+                <div class="duration-option">
+                  <input
+                    type="radio"
+                    name="duration"
+                    id="twoMonths"
+                    value="2 months"
+                    data-multiplier="4"
+                  />
+
+                  <label class="duration-label" for="twoMonths">
+                    <strong>2 Months</strong>
+                    <span>Extended</span>
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- PAYMENT -->
+            <div class="form-group">
+
+              <label>Payment method</label>
+
+              <div class="payment-options">
+
+                <div class="payment-option">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    id="mtn"
+                    value="MTN Mobile Money"
+                    checked
+                  />
+
+                  <label class="payment-label" for="mtn">
+                    MTN MoMo
+                  </label>
+                </div>
+
+                <div class="payment-option">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    id="airtel"
+                    value="Airtel Money"
+                  />
+
+                  <label class="payment-label" for="airtel">
+                    Airtel Money
+                  </label>
+                </div>
+
+                <div class="payment-option">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    id="bk"
+                    value="BK"
+                  />
+
+                  <label class="payment-label" for="bk">
+                    Bank of Kigali
+                  </label>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- TRANSACTION REFERENCE -->
+            <div class="form-group">
+
+              <label for="transactionReference">
+                Transaction Reference
+              </label>
+
+              <input
+                type="text"
+                id="transactionReference"
+                placeholder="Enter your payment transaction reference"
+                maxlength="100"
+                required
+              />
+
+              <div class="reference-help">
+                Enter the reference/code you received after making the payment.
+                Do not enter your PIN or password.
+              </div>
+
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="summary">
+
+              <div class="summary-row">
+                <span>Course</span>
+                <strong id="summaryCourse">—</strong>
+              </div>
+
+              <div class="summary-row">
+                <span>Duration</span>
+                <strong id="summaryDuration">1 week</strong>
+              </div>
+
+              <div class="summary-row">
+                <span>Payment Method</span>
+                <strong id="summaryMethod">MTN Mobile Money</strong>
+              </div>
+
+              <div class="summary-row total">
+                <span>Total</span>
+                <strong id="summaryAmount">RWF 0</strong>
+              </div>
+
+            </div>
+
+            <button
+              type="submit"
+              class="submit-btn"
+              id="submitBtn"
+            >
+              Submit Payment Request
+            </button>
+
+          </form>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    where,
+    getDocs,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+  /* =========================================================
+     FIREBASE
+  ========================================================= */
+
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+    authDomain: "techbrige-rwanda.firebaseapp.com",
+    projectId: "techbrige-rwanda",
+    storageBucket: "techbrige-rwanda.firebasestorage.app",
+    messagingSenderId: "391783540774",
+    appId: "1:391783540774:web:de825e268d4ed6b2711ee7"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+
+  /* =========================================================
+     COURSE DATA
+  ========================================================= */
+
+  const courses = {
+
+    "computer-basics": {
+      icon: "💻",
+      title: "Computer Basics",
+      category: "Computer Skills",
+      level: "Beginner",
+      duration: "4 Weeks",
+      price: 15000,
+      lessons: 12,
+      description:
+        "Learn the essential computer skills every modern student needs, including hardware, software, files, folders, internet and digital safety."
+    },
+
+    "programming-foundations": {
+      icon: "🧠",
+      title: "Programming Foundations",
+      category: "Programming",
+      level: "Beginner",
+      duration: "6 Weeks",
+      price: 25000,
+      lessons: 18,
+      description:
+        "Build a strong programming foundation using variables, conditions, loops, functions, algorithms and problem solving."
+    },
+
+    "web-development": {
+      icon: "🌐",
+      title: "Web Development",
+      category: "Development",
+      level: "Beginner",
+      duration: "8 Weeks",
+      price: 35000,
+      lessons: 24,
+      description:
+        "Learn how modern websites are created using HTML, CSS and JavaScript and build your own responsive web projects."
+    },
+
+    "javascript-development": {
+      icon: "⚡",
+      title: "JavaScript Development",
+      category: "Programming",
+      level: "Intermediate",
+      duration: "8 Weeks",
+      price: 40000,
+      lessons: 28,
+      description:
+        "Master JavaScript fundamentals, DOM manipulation, events, APIs, asynchronous programming and modern web development."
+    },
+
+    "databases-sql": {
+      icon: "🗄️",
+      title: "Databases & SQL",
+      category: "Database",
+      level: "Intermediate",
+      duration: "6 Weeks",
+      price: 30000,
+      lessons: 20,
+      description:
+        "Understand databases, tables, relationships, SQL queries, data management and practical database design."
+    },
+
+    "cpp-programming": {
+      icon: "⚙️",
+      title: "C++ Programming",
+      category: "Programming",
+      level: "Intermediate",
+      duration: "10 Weeks",
+      price: 45000,
+      lessons: 32,
+      description:
+        "Learn C++ programming from fundamentals to object-oriented programming and problem solving."
+    },
+
+    "cyber-security": {
+      icon: "🔐",
+      title: "Cyber Security",
+      category: "Security",
+      level: "Intermediate",
+      duration: "8 Weeks",
+      price: 40000,
+      lessons: 26,
+      description:
+        "Learn cybersecurity fundamentals, digital safety, authentication, common threats, secure systems and security awareness."
+    },
+
+    "artificial-intelligence": {
+      icon: "🤖",
+      title: "Artificial Intelligence",
+      category: "AI",
+      level: "Advanced",
+      duration: "10 Weeks",
+      price: 55000,
+      lessons: 30,
+      description:
+        "Explore artificial intelligence concepts, machine learning fundamentals, data, models and practical AI applications."
+    },
+
+    "android-development": {
+      icon: "📱",
+      title: "Android Development",
+      category: "Mobile Development",
+      level: "Advanced",
+      duration: "10 Weeks",
+      price: 50000,
+      lessons: 30,
+      description:
+        "Learn how to build modern Android applications and understand layouts, application logic, data and deployment."
+    },
+
+    "git-github": {
+      icon: "🔀",
+      title: "Git & GitHub",
+      category: "Developer Tools",
+      level: "Beginner",
+      duration: "3 Weeks",
+      price: 15000,
+      lessons: 10,
+      description:
+        "Learn version control, Git commands, repositories, branches, commits, collaboration and GitHub workflows."
+    }
+
+  };
+
+
+  /* =========================================================
+     DOM
+  ========================================================= */
+
+  const params = new URLSearchParams(window.location.search);
+  const courseId = params.get("courseId");
+
+  const loading = document.getElementById("loading");
+  const mainContent = document.getElementById("mainContent");
+
+  const message = document.getElementById("message");
+  const form = document.getElementById("enrollForm");
+  const submitBtn = document.getElementById("submitBtn");
+
+  const course = courses[courseId];
+
+
+  /* =========================================================
+     HELPERS
+  ========================================================= */
+
+  function showMessage(text, type = "error") {
+    message.textContent = text;
+    message.className = "message show " + type;
+  }
+
+
+  function formatMoney(amount) {
+    return new Intl.NumberFormat("en-RW").format(amount) + " RWF";
+  }
+
+
+  function getSelectedDuration() {
+    return document.querySelector(
+      'input[name="duration"]:checked'
+    );
+  }
+
+
+  function getSelectedPayment() {
+    return document.querySelector(
+      'input[name="paymentMethod"]:checked'
+    );
+  }
+
+
+  function calculateAmount() {
+
+    if (!course) return 0;
+
+    const selectedDuration = getSelectedDuration();
+
+    const multiplier =
+      Number(selectedDuration?.dataset.multiplier || 1);
+
+    return Math.round(course.price * multiplier);
+  }
+
+
+  function updateSummary() {
+
+    if (!course) return;
+
+    const duration = getSelectedDuration();
+    const payment = getSelectedPayment();
+
+    document.getElementById("summaryCourse").textContent =
+      course.title;
+
+    document.getElementById("summaryDuration").textContent =
+      duration ? duration.value : "1 week";
+
+    document.getElementById("summaryMethod").textContent =
+      payment ? payment.value : "MTN Mobile Money";
+
+    document.getElementById("summaryAmount").textContent =
+      formatMoney(calculateAmount());
+  }
+
+
+  /* =========================================================
+     DISPLAY COURSE
+  ========================================================= */
+
+  function displayCourse() {
+
+    if (!courseId || !course) {
+
+      loading.innerHTML = `
+        <div style="color:#fca5a5;">
+          Course not found.
+        </div>
+        <br>
+        <a href="./courses.html"
+           style="color:#00e5ff;">
+          ← Back to Courses
+        </a>
+      `;
+
+      return;
+    }
+
+    document.getElementById("courseIcon").textContent =
+      course.icon;
+
+    document.getElementById("courseTitle").textContent =
+      course.title;
+
+    document.getElementById("courseDescription").textContent =
+      course.description;
+
+    document.getElementById("courseLevel").textContent =
+      course.level;
+
+    document.getElementById("courseLessons").textContent =
+      course.lessons;
+
+    document.getElementById("courseDuration").textContent =
+      course.duration;
+
+    document.getElementById("coursePrice").textContent =
+      formatMoney(course.price);
+
+    loading.style.display = "none";
+    mainContent.style.display = "grid";
+
+    updateSummary();
+  }
+
+
+  /* =========================================================
+     AUTH
+  ========================================================= */
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+      window.location.href =
+        "../login.html?redirect=students/enroll.html?courseId=" +
+        encodeURIComponent(courseId || "");
+      return;
+    }
+
+    document.getElementById("userEmail").textContent =
+      user.email || "Student";
+
+    displayCourse();
+
+    await checkExistingPayment(user);
+  });
+
+
+  /* =========================================================
+     CHECK EXISTING PAYMENT
+  ========================================================= */
+
+  async function checkExistingPayment(user) {
+
+    if (!courseId) return;
+
+    try {
+
+      const paymentQuery = query(
+        collection(db, "payments"),
+        where("userId", "==", user.uid),
+        where("courseId", "==", courseId)
+      );
+
+      const snapshot = await getDocs(paymentQuery);
+
+      let hasPending = false;
+      let hasApproved = false;
+
+      snapshot.forEach((docSnap) => {
+
+        const data = docSnap.data();
+
+        if (data.status === "pending") {
+          hasPending = true;
+        }
+
+        if (
+          data.status === "approved" ||
+          data.status === "paid"
+        ) {
+          hasApproved = true;
+        }
+
+      });
+
+      if (hasApproved) {
+
+        showMessage(
+          "Your payment has already been approved for this course. You can continue learning.",
+          "success"
+        );
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Payment Already Approved";
+
+      } else if (hasPending) {
+
+        showMessage(
+          "You already have a pending payment request for this course. Please wait for admin verification.",
+          "success"
+        );
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Payment Pending";
+
+      }
+
+    } catch (error) {
+
+      console.error("Payment check error:", error);
+
+      // Do not block enrollment if this optional check fails.
+    }
+  }
+
+
+  /* =========================================================
+     DURATION / PAYMENT EVENTS
+  ========================================================= */
+
+  document
+    .querySelectorAll('input[name="duration"]')
+    .forEach((input) => {
+
+      input.addEventListener("change", updateSummary);
+
+    });
+
+
+  document
+    .querySelectorAll('input[name="paymentMethod"]')
+    .forEach((input) => {
+
+      input.addEventListener("change", updateSummary);
+
+    });
+
+
+  /* =========================================================
+     SUBMIT PAYMENT
+  ========================================================= */
+
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const user = auth.currentUser;
+
+    if (!user) {
+      window.location.href = "../login.html";
+      return;
+    }
+
+    if (!course) {
+      showMessage("Invalid course.");
+      return;
+    }
+
+    const duration = getSelectedDuration();
+    const paymentMethod = getSelectedPayment();
+
+    const transactionReference =
+      document
+        .getElementById("transactionReference")
+        .value
+        .trim();
+
+    if (!duration) {
+      showMessage("Please select a learning duration.");
+      return;
+    }
+
+    if (!paymentMethod) {
+      showMessage("Please select a payment method.");
+      return;
+    }
+
+    if (!transactionReference) {
+      showMessage(
+        "Please enter your payment transaction reference."
+      );
+      return;
+    }
+
+    if (transactionReference.length < 3) {
+      showMessage(
+        "Please enter a valid transaction reference."
+      );
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    message.className = "message";
+
+    try {
+
+      /* Check again before creating payment */
+
+      const paymentQuery = query(
+        collection(db, "payments"),
+        where("userId", "==", user.uid),
+        where("courseId", "==", courseId),
+        where("status", "==", "pending")
+      );
+
+      const existingPayments =
+        await getDocs(paymentQuery);
+
+      if (!existingPayments.empty) {
+
+        showMessage(
+          "You already have a pending payment request for this course.",
+          "success"
+        );
+
+        submitBtn.textContent = "Payment Pending";
+        return;
+      }
+
+
+      const amount = calculateAmount();
+
+
+      /* CREATE PAYMENT REQUEST */
+
+      await addDoc(
+        collection(db, "payments"),
+        {
+          userId: user.uid,
+
+          userEmail: user.email || "",
+
+          courseId: courseId,
+
+          courseName: course.title,
+
+          duration: duration.value,
+
+          amount: amount,
+
+          currency: "RWF",
+
+          paymentMethod: paymentMethod.value,
+
+          transactionReference:
+            transactionReference,
+
+          status: "pending",
+
+          submittedAt: serverTimestamp(),
+
+          verifiedAt: null,
+
+          verifiedBy: null,
+
+          rejectionReason: null
+        }
+      );
+
+
+      showMessage(
+        "Payment request submitted successfully. Please wait for admin verification. Your course will unlock after approval.",
+        "success"
+      );
+
+
+      submitBtn.textContent =
+        "Payment Request Submitted";
+
+      document.getElementById(
+        "transactionReference"
+      ).disabled = true;
+
+
+      document
+        .querySelectorAll(
+          'input[name="duration"], input[name="paymentMethod"]'
+        )
+        .forEach((input) => {
+          input.disabled = true;
+        });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      let errorMessage =
+        "Unable to submit payment request. Please try again.";
+
+      if (error.code === "permission-denied") {
+        errorMessage =
+          "Firebase permission denied. Please check your Firestore security rules.";
+      }
+
+      showMessage(errorMessage);
+
+      submitBtn.disabled = false;
+      submitBtn.textContent =
+        "Submit Payment Request";
+    }
+
+  });
+
+
+  /* =========================================================
+     MOBILE MENU
+  ========================================================= */
+
+  document
+    .getElementById("menuBtn")
+    .addEventListener("click", () => {
+
+      document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+    });
+
+
+  /* Close sidebar after navigation */
+
+  document
+    .querySelectorAll(".nav-link")
+    .forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        document
+          .getElementById("sidebar")
+          .classList.remove("open");
+
+      });
+
+    });
+
+</script>
+
+</body>
+</html>
+
