@@ -1,0 +1,2747 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TECHBRIDGE RWANDA — Admin Practical</title>
+
+<style>
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+}
+
+:root{
+ --bg:#070b14;
+ --panel:#0d1527;
+ --panel2:#111c31;
+ --border:rgba(255,255,255,.08);
+ --text:#f8fafc;
+ --muted:#94a3b8;
+ --cyan:#00e5ff;
+ --blue:#3b82f6;
+ --purple:#a855f7;
+ --green:#22c55e;
+ --red:#ef4444;
+ --yellow:#f59e0b;
+}
+
+body{
+ font-family:Inter,Arial,sans-serif;
+ color:var(--text);
+ min-height:100vh;
+ background:
+ radial-gradient(
+  circle at 10% 0%,
+  rgba(0,229,255,.08),
+  transparent 28%
+ ),
+ radial-gradient(
+  circle at 90% 100%,
+  rgba(168,85,247,.08),
+  transparent 30%
+ ),
+ var(--bg);
+}
+
+button,
+input,
+select,
+textarea{
+ font:inherit;
+}
+
+button{
+ cursor:pointer;
+}
+
+a{
+ color:inherit;
+ text-decoration:none;
+}
+
+.app{
+ min-height:100vh;
+ display:flex;
+}
+
+.sidebar{
+ width:250px;
+ position:fixed;
+ inset:0 auto 0 0;
+ padding:20px 14px;
+ border-right:1px solid var(--border);
+ background:rgba(7,11,20,.94);
+ backdrop-filter:blur(18px);
+ z-index:30;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:0 8px 25px;
+}
+
+.logo{
+ width:42px;
+ height:42px;
+ display:grid;
+ place-items:center;
+ border-radius:12px;
+ color:#041018;
+ font-weight:900;
+ background:
+ linear-gradient(
+  135deg,
+  var(--cyan),
+  var(--blue)
+ );
+}
+
+.brand strong{
+ display:block;
+ font-size:13px;
+}
+
+.brand span{
+ color:var(--muted);
+ font-size:9px;
+}
+
+.nav-title{
+ color:#64748b;
+ font-size:9px;
+ font-weight:900;
+ letter-spacing:1px;
+ padding:12px 10px 7px;
+ text-transform:uppercase;
+}
+
+.nav a{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:11px 12px;
+ margin:3px 0;
+ border-radius:10px;
+ color:#94a3b8;
+ font-size:11px;
+ transition:.15s;
+}
+
+.nav a:hover,
+.nav a.active{
+ color:white;
+ background:rgba(0,229,255,.08);
+}
+
+.nav a.active{
+ border:1px solid rgba(0,229,255,.15);
+}
+
+.logout{
+ position:absolute;
+ bottom:18px;
+ left:14px;
+ right:14px;
+ width:calc(100% - 28px);
+ padding:11px;
+ border:1px solid rgba(239,68,68,.15);
+ border-radius:10px;
+ color:#fca5a5;
+ background:rgba(239,68,68,.05);
+}
+
+.main{
+ margin-left:250px;
+ width:calc(100% - 250px);
+ padding:25px;
+}
+
+.top{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ margin-bottom:22px;
+}
+
+.top-left{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.top h1{
+ font-size:25px;
+}
+
+.top p{
+ margin-top:5px;
+ color:var(--muted);
+ font-size:11px;
+}
+
+.mobile-menu{
+ display:none;
+}
+
+.create-btn{
+ border:0;
+ padding:11px 15px;
+ border-radius:10px;
+ color:#041018;
+ background:
+ linear-gradient(
+  135deg,
+  var(--cyan),
+  var(--blue)
+ );
+ font-weight:900;
+ font-size:11px;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:12px;
+ margin-bottom:18px;
+}
+
+.stat{
+ padding:16px;
+ border:1px solid var(--border);
+ border-radius:15px;
+ background:rgba(255,255,255,.035);
+}
+
+.stat small{
+ color:var(--muted);
+ font-size:9px;
+ display:block;
+ margin-bottom:8px;
+}
+
+.stat strong{
+ font-size:23px;
+}
+
+.toolbar{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-bottom:15px;
+}
+
+.search{
+ flex:1;
+ min-width:220px;
+}
+
+input,
+select,
+textarea{
+ width:100%;
+ border:1px solid var(--border);
+ outline:none;
+ color:white;
+ background:#0a1221;
+ border-radius:10px;
+ padding:11px 12px;
+ font-size:11px;
+}
+
+textarea{
+ min-height:100px;
+ resize:vertical;
+ line-height:1.6;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+ border-color:rgba(0,229,255,.4);
+}
+
+.filter{
+ width:150px;
+}
+
+.table-wrap{
+ overflow:auto;
+ border:1px solid var(--border);
+ border-radius:16px;
+ background:rgba(255,255,255,.025);
+}
+
+table{
+ width:100%;
+ min-width:950px;
+ border-collapse:collapse;
+}
+
+th,
+td{
+ padding:13px 14px;
+ text-align:left;
+ border-bottom:1px solid var(--border);
+ font-size:10px;
+}
+
+th{
+ color:#64748b;
+ font-size:9px;
+ text-transform:uppercase;
+ letter-spacing:.6px;
+}
+
+td{
+ color:#cbd5e1;
+}
+
+tbody tr:hover{
+ background:rgba(255,255,255,.025);
+}
+
+.badge{
+ display:inline-block;
+ padding:5px 8px;
+ border-radius:999px;
+ font-size:8px;
+ font-weight:900;
+}
+
+.published{
+ color:#86efac;
+ background:rgba(34,197,94,.09);
+}
+
+.draft{
+ color:#fcd34d;
+ background:rgba(245,158,11,.09);
+}
+
+.beginner{
+ color:#67e8f9;
+ background:rgba(0,229,255,.08);
+}
+
+.intermediate{
+ color:#93c5fd;
+ background:rgba(59,130,246,.08);
+}
+
+.advanced{
+ color:#d8b4fe;
+ background:rgba(168,85,247,.08);
+}
+
+.actions{
+ display:flex;
+ gap:6px;
+}
+
+.action{
+ border:1px solid var(--border);
+ border-radius:8px;
+ padding:7px 9px;
+ color:#cbd5e1;
+ background:rgba(255,255,255,.035);
+ font-size:9px;
+}
+
+.action.delete{
+ color:#fca5a5;
+}
+
+.empty{
+ padding:45px 20px;
+ text-align:center;
+ color:var(--muted);
+ font-size:12px;
+}
+
+.overlay{
+ position:fixed;
+ inset:0;
+ z-index:100;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ background:rgba(0,0,0,.7);
+ backdrop-filter:blur(8px);
+}
+
+.overlay.show{
+ display:flex;
+}
+
+.modal{
+ width:min(850px,100%);
+ max-height:92vh;
+ overflow:auto;
+ padding:22px;
+ border:1px solid var(--border);
+ border-radius:20px;
+ background:#0c1424;
+ box-shadow:0 20px 80px rgba(0,0,0,.5);
+}
+
+.modal-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ margin-bottom:18px;
+}
+
+.modal-head h2{
+ font-size:18px;
+}
+
+.close{
+ width:32px;
+ height:32px;
+ border:1px solid var(--border);
+ border-radius:9px;
+ color:#cbd5e1;
+ background:rgba(255,255,255,.04);
+}
+
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:11px;
+}
+
+.field.full{
+ grid-column:1/-1;
+}
+
+.field label{
+ display:block;
+ color:#94a3b8;
+ font-size:9px;
+ margin-bottom:6px;
+}
+
+.hint{
+ color:#64748b;
+ font-size:9px;
+ line-height:1.5;
+ margin-top:5px;
+}
+
+.modal-actions{
+ display:flex;
+ justify-content:flex-end;
+ gap:8px;
+ margin-top:20px;
+}
+
+.cancel-btn,
+.save-btn{
+ padding:11px 15px;
+ border-radius:10px;
+ font-size:10px;
+ font-weight:900;
+}
+
+.cancel-btn{
+ border:1px solid var(--border);
+ color:#cbd5e1;
+ background:rgba(255,255,255,.04);
+}
+
+.save-btn{
+ border:0;
+ color:#041018;
+ background:
+ linear-gradient(
+  135deg,
+  var(--cyan),
+  var(--blue)
+ );
+}
+
+.save-btn:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.toast{
+ position:fixed;
+ right:20px;
+ bottom:20px;
+ z-index:200;
+ display:none;
+ max-width:360px;
+ padding:12px 15px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ color:white;
+ background:#111c31;
+ box-shadow:0 10px 40px rgba(0,0,0,.35);
+ font-size:10px;
+}
+
+.toast.show{
+ display:block;
+}
+
+.details{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+ margin-top:15px;
+}
+
+.detail{
+ padding:12px;
+ border:1px solid var(--border);
+ border-radius:11px;
+ background:rgba(255,255,255,.025);
+}
+
+.detail small{
+ display:block;
+ color:#64748b;
+ font-size:8px;
+ margin-bottom:5px;
+}
+
+.detail strong{
+ color:#e2e8f0;
+ font-size:10px;
+ word-break:break-word;
+}
+
+@media(max-width:900px){
+
+ .sidebar{
+  transform:translateX(-100%);
+  transition:.2s;
+ }
+
+ .sidebar.open{
+  transform:translateX(0);
+ }
+
+ .main{
+  margin-left:0;
+  width:100%;
+  padding:18px;
+ }
+
+ .mobile-menu{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:white;
+  background:rgba(255,255,255,.04);
+ }
+
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+}
+
+@media(max-width:600px){
+
+ .top{
+  flex-direction:column;
+  align-items:stretch;
+ }
+
+ .create-btn{
+  width:100%;
+ }
+
+ .stats{
+  grid-template-columns:1fr 1fr;
+ }
+
+ .form-grid,
+ .details{
+  grid-template-columns:1fr;
+ }
+
+ .field.full{
+  grid-column:auto;
+ }
+
+ .modal-actions{
+  flex-direction:column;
+ }
+
+ .modal-actions button{
+  width:100%;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="brand">
+  <div class="logo">TB</div>
+
+  <div>
+   <strong>TECHBRIDGE RWANDA</strong>
+   <span>ADMIN PANEL</span>
+  </div>
+ </div>
+
+
+ <nav class="nav">
+
+  <div class="nav-title">
+   Management
+  </div>
+
+  <a href="./index.html">
+   ▦ Dashboard
+  </a>
+
+  <a href="./students.html">
+   ♙ Students
+  </a>
+
+  <a href="./courses.html">
+   ▤ Courses
+  </a>
+
+  <a href="./payments.html">
+   ◈ Payments
+  </a>
+
+  <a href="./quizzes.html">
+   ✓ Quizzes
+  </a>
+
+  <a href="./tests.html">
+   ⌁ Tests
+  </a>
+
+  <a href="./practical.html" class="active">
+   ⌘ Practical
+  </a>
+
+
+  <div class="nav-title">
+   Academic
+  </div>
+
+  <a href="./certificates.html">
+   ◇ Certificates
+  </a>
+
+  <a href="./progress.html">
+   ◌ Progress
+  </a>
+
+  <a href="./notifications.html">
+   ♢ Notifications
+  </a>
+
+ </nav>
+
+
+ <button
+  class="logout"
+  id="logoutBtn"
+ >
+  Logout
+ </button>
+
+</aside>
+
+
+<main class="main">
+
+ <header class="top">
+
+  <div class="top-left">
+
+   <button
+    class="mobile-menu"
+    id="menuBtn"
+   >
+    ☰
+   </button>
+
+   <div>
+
+    <h1>
+     Practical Tasks
+    </h1>
+
+    <p>
+     Create and manage hands-on learning tasks.
+    </p>
+
+   </div>
+
+  </div>
+
+
+  <button
+   class="create-btn"
+   id="createBtn"
+  >
+   + Create Practical Task
+  </button>
+
+ </header>
+
+
+ <section class="stats">
+
+  <div class="stat">
+   <small>Total Tasks</small>
+   <strong id="totalStat">0</strong>
+  </div>
+
+  <div class="stat">
+   <small>Published</small>
+   <strong id="publishedStat">0</strong>
+  </div>
+
+  <div class="stat">
+   <small>Draft</small>
+   <strong id="draftStat">0</strong>
+  </div>
+
+  <div class="stat">
+   <small>Beginner</small>
+   <strong id="beginnerStat">0</strong>
+  </div>
+
+  <div class="stat">
+   <small>Advanced</small>
+   <strong id="advancedStat">0</strong>
+  </div>
+
+ </section>
+
+
+ <section class="toolbar">
+
+  <div class="search">
+
+   <input
+    id="searchInput"
+    type="search"
+    placeholder="Search tasks, courses or IDs..."
+   >
+
+  </div>
+
+
+  <div class="filter">
+
+   <select id="levelFilter">
+
+    <option value="">
+     All Levels
+    </option>
+
+    <option value="Beginner">
+     Beginner
+    </option>
+
+    <option value="Intermediate">
+     Intermediate
+    </option>
+
+    <option value="Advanced">
+     Advanced
+    </option>
+
+   </select>
+
+  </div>
+
+
+  <div class="filter">
+
+   <select id="statusFilter">
+
+    <option value="">
+     All Status
+    </option>
+
+    <option value="published">
+     Published
+    </option>
+
+    <option value="draft">
+     Draft
+    </option>
+
+   </select>
+
+  </div>
+
+ </section>
+
+
+ <section class="table-wrap">
+
+  <table>
+
+   <thead>
+
+    <tr>
+
+     <th>Task</th>
+
+     <th>Course</th>
+
+     <th>Level</th>
+
+     <th>Type</th>
+
+     <th>Points</th>
+
+     <th>Status</th>
+
+     <th>Actions</th>
+
+    </tr>
+
+   </thead>
+
+
+   <tbody id="taskTable"></tbody>
+
+  </table>
+
+
+  <div
+   class="empty"
+   id="emptyState"
+   style="display:none"
+  >
+   No practical tasks found.
+  </div>
+
+ </section>
+
+</main>
+
+</div>
+
+
+<!-- CREATE / EDIT MODAL -->
+
+<div
+ class="overlay"
+ id="modalOverlay"
+>
+
+ <div class="modal">
+
+  <div class="modal-head">
+
+   <h2 id="modalTitle">
+    Create Practical Task
+   </h2>
+
+   <button
+    class="close"
+    id="closeModal"
+   >
+    ×
+   </button>
+
+  </div>
+
+
+  <form id="taskForm">
+
+   <div class="form-grid">
+
+
+    <div class="field">
+
+     <label>
+      Task ID
+     </label>
+
+     <input
+      id="taskId"
+      required
+      placeholder="e.g. html-profile-page"
+      pattern="[a-z0-9-]+"
+     >
+
+     <div class="hint">
+      Use lowercase letters, numbers and hyphens.
+     </div>
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Task Title
+     </label>
+
+     <input
+      id="taskTitle"
+      required
+      placeholder="e.g. Build a Personal Profile Page"
+     >
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Course ID
+     </label>
+
+     <input
+      id="courseId"
+      required
+      placeholder="e.g. web-development"
+     >
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Course Name — Optional
+     </label>
+
+     <input
+      id="courseName"
+      placeholder="e.g. Web Development"
+     >
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Level
+     </label>
+
+     <select id="taskLevel">
+
+      <option value="Beginner">
+       Beginner
+      </option>
+
+      <option value="Intermediate">
+       Intermediate
+      </option>
+
+      <option value="Advanced">
+       Advanced
+      </option>
+
+     </select>
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Task Type
+     </label>
+
+     <select id="taskType">
+
+      <option value="coding">
+       Coding
+      </option>
+
+      <option value="computer">
+       Computer Workshop
+      </option>
+
+      <option value="project">
+       Project
+      </option>
+
+      <option value="research">
+       Research
+      </option>
+
+      <option value="other">
+       Other
+      </option>
+
+     </select>
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Points
+     </label>
+
+     <input
+      id="points"
+      type="number"
+      min="1"
+      value="100"
+     >
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Estimated Time — Minutes
+     </label>
+
+     <input
+      id="estimatedMinutes"
+      type="number"
+      min="0"
+      value="60"
+     >
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Status
+     </label>
+
+     <select id="taskStatus">
+
+      <option value="draft">
+       Draft
+      </option>
+
+      <option value="published">
+       Published
+      </option>
+
+     </select>
+
+    </div>
+
+
+    <div class="field">
+
+     <label>
+      Submission Type
+     </label>
+
+     <select id="submissionType">
+
+      <option value="text">
+       Text Answer
+      </option>
+
+      <option value="code">
+       Code
+      </option>
+
+      <option value="file">
+       File
+      </option>
+
+      <option value="link">
+       Project Link
+      </option>
+
+      <option value="mixed">
+       Mixed
+      </option>
+
+     </select>
+
+    </div>
+
+
+    <div class="field full">
+
+     <label>
+      Task Description
+     </label>
+
+     <textarea
+      id="description"
+      required
+      placeholder="Explain clearly what the student must build or complete..."
+     ></textarea>
+
+    </div>
+
+
+    <div class="field full">
+
+     <label>
+      Instructions
+     </label>
+
+     <textarea
+      id="instructions"
+      placeholder="Add step-by-step instructions, requirements or constraints..."
+     ></textarea>
+
+    </div>
+
+
+    <div class="field full">
+
+     <label>
+      Expected Outcome
+     </label>
+
+     <textarea
+      id="expectedOutcome"
+      placeholder="Describe what a successful submission should contain..."
+     ></textarea>
+
+    </div>
+
+
+    <div class="field full">
+
+     <label>
+      Resources / Tools
+     </label>
+
+     <textarea
+      id="resources"
+      placeholder="Example: VS Code, browser, HTML/CSS, GitHub..."
+     ></textarea>
+
+    </div>
+
+   </div>
+
+
+   <div class="modal-actions">
+
+    <button
+     type="button"
+     class="cancel-btn"
+     id="cancelBtn"
+    >
+     Cancel
+    </button>
+
+
+    <button
+     type="submit"
+     class="save-btn"
+     id="saveBtn"
+    >
+     Save Practical Task
+    </button>
+
+   </div>
+
+  </form>
+
+ </div>
+
+</div>
+
+
+<!-- DETAILS MODAL -->
+
+<div
+ class="overlay"
+ id="detailsOverlay"
+>
+
+ <div class="modal">
+
+  <div class="modal-head">
+
+   <h2>
+    Practical Task Details
+   </h2>
+
+   <button
+    class="close"
+    id="closeDetails"
+   >
+    ×
+   </button>
+
+  </div>
+
+
+  <div id="detailsContent"></div>
+
+ </div>
+
+</div>
+
+
+<div
+ class="toast"
+ id="toast"
+></div>
+
+
+<script type="module">
+
+import {
+ initializeApp
+} from
+ "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+ getAuth,
+ onAuthStateChanged,
+ getIdTokenResult,
+ signOut
+} from
+ "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ collection,
+ getDocs,
+ doc,
+ setDoc,
+ updateDoc,
+ deleteDoc,
+ serverTimestamp
+} from
+ "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+ apiKey:
+  "AIzaSyAIeekQOHDHt--r4KbPU8YOgueG3P1249g",
+
+ authDomain:
+  "techbrige-rwanda.firebaseapp.com",
+
+ projectId:
+  "techbrige-rwanda",
+
+ storageBucket:
+  "techbrige-rwanda.firebasestorage.app",
+
+ messagingSenderId:
+  "391783540774",
+
+ appId:
+  "1:391783540774:web:de825e268d4ed6b2711ee7"
+
+};
+
+
+const app =
+ initializeApp(
+  firebaseConfig
+ );
+
+const auth =
+ getAuth(app);
+
+const db =
+ getFirestore(app);
+
+
+/* =========================
+   STATE
+========================= */
+
+let tasks = [];
+
+let editingId = null;
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const table =
+ document.getElementById(
+  "taskTable"
+ );
+
+const emptyState =
+ document.getElementById(
+  "emptyState"
+ );
+
+const modal =
+ document.getElementById(
+  "modalOverlay"
+ );
+
+const detailsOverlay =
+ document.getElementById(
+  "detailsOverlay"
+ );
+
+const form =
+ document.getElementById(
+  "taskForm"
+ );
+
+
+/* =========================
+   ADMIN AUTH
+========================= */
+
+onAuthStateChanged(
+ auth,
+ async user => {
+
+  if(!user){
+
+   window.location.href =
+    "../login.html";
+
+   return;
+
+  }
+
+
+  try{
+
+   const tokenResult =
+    await getIdTokenResult(
+     user,
+     true
+    );
+
+
+   if(
+    tokenResult.claims.admin !== true
+   ){
+
+    alert(
+     "Admin access is required."
+    );
+
+    window.location.href =
+     "../students/index.html";
+
+    return;
+
+   }
+
+
+   await loadTasks();
+
+  }catch(error){
+
+   console.error(error);
+
+   alert(
+    "Unable to verify admin access."
+   );
+
+   window.location.href =
+    "../login.html";
+
+  }
+
+ });
+
+
+/* =========================
+   LOAD TASKS
+========================= */
+
+async function loadTasks(){
+
+ try{
+
+  const snapshot =
+   await getDocs(
+    collection(
+     db,
+     "practicalTasks"
+    )
+   );
+
+
+  tasks =
+   snapshot.docs.map(
+    item => ({
+     id:item.id,
+     ...item.data()
+    })
+   );
+
+
+  tasks.sort(
+   (a,b)=>
+    String(
+     a.title || ""
+    ).localeCompare(
+     String(
+      b.title || ""
+     )
+    )
+  );
+
+
+  updateStats();
+
+  renderTable();
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   "Could not load practical tasks: " +
+   error.message
+  );
+
+ }
+
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+ document.getElementById(
+  "totalStat"
+ ).textContent =
+  tasks.length;
+
+
+ document.getElementById(
+  "publishedStat"
+ ).textContent =
+  tasks.filter(
+   task =>
+    task.status === "published"
+  ).length;
+
+
+ document.getElementById(
+  "draftStat"
+ ).textContent =
+  tasks.filter(
+   task =>
+    task.status === "draft"
+  ).length;
+
+
+ document.getElementById(
+  "beginnerStat"
+ ).textContent =
+  tasks.filter(
+   task =>
+    task.level === "Beginner"
+  ).length;
+
+
+ document.getElementById(
+  "advancedStat"
+ ).textContent =
+  tasks.filter(
+   task =>
+    task.level === "Advanced"
+  ).length;
+
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+document.getElementById(
+ "searchInput"
+).addEventListener(
+ "input",
+ renderTable
+ );
+
+
+document.getElementById(
+ "levelFilter"
+).addEventListener(
+ "change",
+ renderTable
+ );
+
+
+document.getElementById(
+ "statusFilter"
+).addEventListener(
+ "change",
+ renderTable
+ );
+
+
+function renderTable(){
+
+ const search =
+  document.getElementById(
+   "searchInput"
+  )
+   .value
+   .trim()
+   .toLowerCase();
+
+
+ const level =
+  document.getElementById(
+   "levelFilter"
+  ).value;
+
+
+ const status =
+  document.getElementById(
+   "statusFilter"
+  ).value;
+
+
+ const filtered =
+  tasks.filter(
+   task => {
+
+    const searchable =
+     [
+      task.id,
+      task.title,
+      task.courseId,
+      task.courseName,
+      task.description,
+      task.type
+     ]
+      .join(" ")
+      .toLowerCase();
+
+
+    return (
+
+     (!search ||
+      searchable.includes(
+       search
+      ))
+
+     &&
+
+     (!level ||
+      task.level === level)
+
+     &&
+
+     (!status ||
+      task.status === status)
+
+    );
+
+   }
+  );
+
+
+ table.innerHTML =
+  "";
+
+
+ if(!filtered.length){
+
+  emptyState.style.display =
+   "block";
+
+  return;
+
+ }
+
+
+ emptyState.style.display =
+  "none";
+
+
+ filtered.forEach(
+  task => {
+
+   const tr =
+    document.createElement(
+     "tr"
+    );
+
+
+   const levelClass =
+    String(
+     task.level || ""
+    ).toLowerCase();
+
+
+   const statusClass =
+    task.status === "published"
+     ? "published"
+     : "draft";
+
+
+   tr.innerHTML = `
+
+    <td>
+
+     <strong>
+      ${escapeHtml(
+       task.title ||
+       task.id
+      )}
+     </strong>
+
+     <div
+      style="
+       color:#64748b;
+       margin-top:4px;
+      "
+     >
+      ${escapeHtml(
+       task.id
+      )}
+     </div>
+
+    </td>
+
+
+    <td>
+     ${escapeHtml(
+      task.courseName ||
+      task.courseId ||
+      "—"
+     )}
+    </td>
+
+
+    <td>
+
+     <span
+      class="badge ${levelClass}"
+     >
+      ${escapeHtml(
+       task.level ||
+       "Beginner"
+      )}
+     </span>
+
+    </td>
+
+
+    <td>
+     ${escapeHtml(
+      task.type ||
+      "coding"
+     )}
+    </td>
+
+
+    <td>
+     ${Number(
+      task.points || 0
+     )}
+    </td>
+
+
+    <td>
+
+     <span
+      class="badge ${statusClass}"
+     >
+      ${escapeHtml(
+       task.status ||
+       "draft"
+      )}
+     </span>
+
+    </td>
+
+
+    <td>
+
+     <div class="actions">
+
+      <button
+       class="action"
+       data-action="view"
+       data-id="${escapeHtml(
+        task.id
+       )}"
+      >
+       View
+      </button>
+
+
+      <button
+       class="action"
+       data-action="edit"
+       data-id="${escapeHtml(
+        task.id
+       )}"
+      >
+       Edit
+      </button>
+
+
+      <button
+       class="action delete"
+       data-action="delete"
+       data-id="${escapeHtml(
+        task.id
+       )}"
+      >
+       Delete
+      </button>
+
+     </div>
+
+    </td>
+
+   `;
+
+
+   table.appendChild(
+    tr
+   );
+
+  }
+ );
+
+}
+
+
+/* =========================
+   CREATE
+========================= */
+
+document.getElementById(
+ "createBtn"
+).addEventListener(
+ "click",
+ openCreateModal
+ );
+
+
+function openCreateModal(){
+
+ editingId =
+  null;
+
+
+ document.getElementById(
+  "modalTitle"
+ ).textContent =
+  "Create Practical Task";
+
+
+ form.reset();
+
+
+ document.getElementById(
+  "taskLevel"
+ ).value =
+  "Beginner";
+
+
+ document.getElementById(
+  "taskType"
+ ).value =
+  "coding";
+
+
+ document.getElementById(
+  "points"
+ ).value =
+  "100";
+
+
+ document.getElementById(
+  "estimatedMinutes"
+ ).value =
+  "60";
+
+
+ document.getElementById(
+  "taskStatus"
+ ).value =
+  "draft";
+
+
+ document.getElementById(
+  "submissionType"
+ ).value =
+  "text";
+
+
+ modal.classList.add(
+  "show"
+ );
+
+}
+
+
+/* =========================
+   EDIT
+========================= */
+
+table.addEventListener(
+ "click",
+ event => {
+
+  const button =
+   event.target.closest(
+    "button[data-action]"
+   );
+
+
+  if(!button){
+   return;
+  }
+
+
+  const id =
+   button.dataset.id;
+
+
+  const action =
+   button.dataset.action;
+
+
+  if(action === "view"){
+   openDetails(id);
+  }
+
+
+  if(action === "edit"){
+   openEditModal(id);
+  }
+
+
+  if(action === "delete"){
+   deleteTask(id);
+  }
+
+ });
+
+
+function openEditModal(id){
+
+ const task =
+  tasks.find(
+   item =>
+    item.id === id
+  );
+
+
+ if(!task){
+  return;
+ }
+
+
+ editingId =
+  id;
+
+
+ document.getElementById(
+  "modalTitle"
+ ).textContent =
+  "Edit Practical Task";
+
+
+ document.getElementById(
+  "taskId"
+ ).value =
+  task.id;
+
+
+ document.getElementById(
+  "taskId"
+ ).disabled =
+  true;
+
+
+ document.getElementById(
+  "taskTitle"
+ ).value =
+  task.title || "";
+
+
+ document.getElementById(
+  "courseId"
+ ).value =
+  task.courseId || "";
+
+
+ document.getElementById(
+  "courseName"
+ ).value =
+  task.courseName || "";
+
+
+ document.getElementById(
+  "taskLevel"
+ ).value =
+  task.level ||
+  "Beginner";
+
+
+ document.getElementById(
+  "taskType"
+ ).value =
+  task.type ||
+  "coding";
+
+
+ document.getElementById(
+  "points"
+ ).value =
+  Number(
+   task.points || 100
+  );
+
+
+ document.getElementById(
+  "estimatedMinutes"
+ ).value =
+  Number(
+   task.estimatedMinutes || 0
+  );
+
+
+ document.getElementById(
+  "taskStatus"
+ ).value =
+  task.status ||
+  "draft";
+
+
+ document.getElementById(
+  "submissionType"
+ ).value =
+  task.submissionType ||
+  "text";
+
+
+ document.getElementById(
+  "description"
+ ).value =
+  task.description || "";
+
+
+ document.getElementById(
+  "instructions"
+ ).value =
+  task.instructions || "";
+
+
+ document.getElementById(
+  "expectedOutcome"
+ ).value =
+  task.expectedOutcome || "";
+
+
+ document.getElementById(
+  "resources"
+ ).value =
+  task.resources || "";
+
+
+ modal.classList.add(
+  "show"
+ );
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+form.addEventListener(
+ "submit",
+ async event => {
+
+  event.preventDefault();
+
+
+  const id =
+   document.getElementById(
+    "taskId"
+   )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  if(
+   !/^[a-z0-9-]+$/.test(id)
+  ){
+
+   showToast(
+    "Task ID may only contain lowercase letters, numbers and hyphens."
+   );
+
+   return;
+
+  }
+
+
+  const title =
+   document.getElementById(
+    "taskTitle"
+   )
+    .value
+    .trim();
+
+
+  const courseId =
+   document.getElementById(
+    "courseId"
+   )
+    .value
+    .trim();
+
+
+  const courseName =
+   document.getElementById(
+    "courseName"
+   )
+    .value
+    .trim();
+
+
+  const level =
+   document.getElementById(
+    "taskLevel"
+   ).value;
+
+
+  const type =
+   document.getElementById(
+    "taskType"
+   ).value;
+
+
+  const points =
+   Math.max(
+    1,
+    Number(
+     document.getElementById(
+      "points"
+     ).value || 100
+    )
+   );
+
+
+  const estimatedMinutes =
+   Math.max(
+    0,
+    Number(
+     document.getElementById(
+      "estimatedMinutes"
+     ).value || 0
+    )
+   );
+
+
+  const status =
+   document.getElementById(
+    "taskStatus"
+   ).value;
+
+
+  const submissionType =
+   document.getElementById(
+    "submissionType"
+   ).value;
+
+
+  const description =
+   document.getElementById(
+    "description"
+   )
+    .value
+    .trim();
+
+
+  const instructions =
+   document.getElementById(
+    "instructions"
+   )
+    .value
+    .trim();
+
+
+  const expectedOutcome =
+   document.getElementById(
+    "expectedOutcome"
+   )
+    .value
+    .trim();
+
+
+  const resources =
+   document.getElementById(
+    "resources"
+   )
+    .value
+    .trim();
+
+
+  if(!description){
+
+   showToast(
+    "Task description is required."
+   );
+
+   return;
+
+  }
+
+
+  const saveBtn =
+   document.getElementById(
+    "saveBtn"
+   );
+
+
+  saveBtn.disabled =
+   true;
+
+  saveBtn.textContent =
+   "Saving...";
+
+
+  try{
+
+   const user =
+    auth.currentUser;
+
+
+   if(!user){
+
+    throw new Error(
+     "You are not signed in."
+    );
+
+   }
+
+
+   const taskData = {
+
+    id,
+
+    title,
+
+    courseId,
+
+    courseName,
+
+    level,
+
+    type,
+
+    points,
+
+    estimatedMinutes,
+
+    status,
+
+    submissionType,
+
+    description,
+
+    instructions,
+
+    expectedOutcome,
+
+    resources,
+
+    updatedAt:
+     serverTimestamp(),
+
+    updatedBy:
+     user.uid
+
+   };
+
+
+   if(!editingId){
+
+    taskData.createdAt =
+     serverTimestamp();
+
+    taskData.createdBy =
+     user.uid;
+
+
+    await setDoc(
+     doc(
+      db,
+      "practicalTasks",
+      id
+     ),
+     taskData
+    );
+
+
+    showToast(
+     "Practical task created successfully."
+    );
+
+   }else{
+
+    await updateDoc(
+     doc(
+      db,
+      "practicalTasks",
+      editingId
+     ),
+     taskData
+    );
+
+
+    showToast(
+     "Practical task updated successfully."
+    );
+
+   }
+
+
+   closeModal();
+
+   await loadTasks();
+
+  }catch(error){
+
+   console.error(error);
+
+   showToast(
+    "Could not save task: " +
+    error.message
+   );
+
+  }finally{
+
+   saveBtn.disabled =
+    false;
+
+   saveBtn.textContent =
+    "Save Practical Task";
+
+  }
+
+ });
+
+
+/* =========================
+   VIEW DETAILS
+========================= */
+
+function openDetails(id){
+
+ const task =
+  tasks.find(
+   item =>
+    item.id === id
+  );
+
+
+ if(!task){
+  return;
+ }
+
+
+ const details =
+  document.getElementById(
+   "detailsContent"
+  );
+
+
+ details.innerHTML = `
+
+  <h2
+   style="
+    font-size:20px;
+    margin-bottom:7px;
+   "
+  >
+   ${escapeHtml(
+    task.title ||
+    task.id
+   )}
+  </h2>
+
+
+  <p
+   style="
+    color:#94a3b8;
+    font-size:11px;
+    line-height:1.7;
+   "
+  >
+   ${escapeHtml(
+    task.description ||
+    "No description."
+   )}
+  </p>
+
+
+  <div class="details">
+
+   ${detail(
+    "Task ID",
+    task.id
+   )}
+
+   ${detail(
+    "Course",
+    task.courseName ||
+    task.courseId ||
+    "—"
+   )}
+
+   ${detail(
+    "Level",
+    task.level ||
+    "—"
+   )}
+
+   ${detail(
+    "Type",
+    task.type ||
+    "—"
+   )}
+
+   ${detail(
+    "Points",
+    task.points ||
+    "—"
+   )}
+
+   ${detail(
+    "Estimated Time",
+    task.estimatedMinutes
+     ? `${task.estimatedMinutes} minutes`
+     : "—"
+   )}
+
+   ${detail(
+    "Status",
+    task.status ||
+    "draft"
+   )}
+
+   ${detail(
+    "Submission",
+    task.submissionType ||
+    "text"
+   )}
+
+  </div>
+
+
+  <div
+   style="
+    margin-top:15px;
+   "
+  >
+
+   <div class="detail">
+
+    <small>
+     Instructions
+    </small>
+
+    <strong
+     style="
+      display:block;
+      line-height:1.7;
+      white-space:pre-wrap;
+     "
+    >
+     ${escapeHtml(
+      task.instructions ||
+      "No instructions provided."
+     )}
+    </strong>
+
+   </div>
+
+
+   <div
+    class="detail"
+    style="
+     margin-top:9px;
+    "
+   >
+
+    <small>
+     Expected Outcome
+    </small>
+
+    <strong
+     style="
+      display:block;
+      line-height:1.7;
+      white-space:pre-wrap;
+     "
+    >
+     ${escapeHtml(
+      task.expectedOutcome ||
+      "No expected outcome provided."
+     )}
+    </strong>
+
+   </div>
+
+
+   <div
+    class="detail"
+    style="
+     margin-top:9px;
+    "
+   >
+
+    <small>
+     Resources / Tools
+    </small>
+
+    <strong
+     style="
+      display:block;
+      line-height:1.7;
+      white-space:pre-wrap;
+     "
+    >
+     ${escapeHtml(
+      task.resources ||
+      "No resources provided."
+     )}
+    </strong>
+
+   </div>
+
+  </div>
+
+ `;
+
+
+ detailsOverlay.classList.add(
+  "show"
+ );
+
+}
+
+
+function detail(
+ label,
+ value
+){
+
+ return `
+
+  <div class="detail">
+
+   <small>
+    ${escapeHtml(label)}
+   </small>
+
+   <strong>
+    ${escapeHtml(value)}
+   </strong>
+
+  </div>
+
+ `;
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+async function deleteTask(id){
+
+ const task =
+  tasks.find(
+   item =>
+    item.id === id
+  );
+
+
+ if(!task){
+  return;
+ }
+
+
+ const confirmed =
+  confirm(
+   `Delete "${task.title || id}"?\n\nThis cannot be undone.`
+  );
+
+
+ if(!confirmed){
+  return;
+ }
+
+
+ try{
+
+  await deleteDoc(
+   doc(
+    db,
+    "practicalTasks",
+    id
+   )
+  );
+
+
+  showToast(
+   "Practical task deleted."
+  );
+
+
+  await loadTasks();
+
+ }catch(error){
+
+  console.error(error);
+
+  showToast(
+   "Could not delete task: " +
+   error.message
+  );
+
+ }
+
+}
+
+
+/* =========================
+   CLOSE MODALS
+========================= */
+
+document.getElementById(
+ "closeModal"
+).addEventListener(
+ "click",
+ closeModal
+ );
+
+
+document.getElementById(
+ "cancelBtn"
+).addEventListener(
+ "click",
+ closeModal
+ );
+
+
+document.getElementById(
+ "closeDetails"
+).addEventListener(
+ "click",
+ ()=>{
+  detailsOverlay.classList.remove(
+   "show"
+  );
+ });
+
+
+modal.addEventListener(
+ "click",
+ event => {
+
+  if(
+   event.target === modal
+  ){
+   closeModal();
+  }
+
+ });
+
+
+detailsOverlay.addEventListener(
+ "click",
+ event => {
+
+  if(
+   event.target === detailsOverlay
+  ){
+
+   detailsOverlay.classList.remove(
+    "show"
+   );
+
+  }
+
+ });
+
+
+function closeModal(){
+
+ modal.classList.remove(
+  "show"
+ );
+
+
+ document.getElementById(
+  "taskId"
+ ).disabled =
+  false;
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+document.getElementById(
+ "logoutBtn"
+).addEventListener(
+ "click",
+ async ()=>{
+
+  try{
+
+   await signOut(auth);
+
+   window.location.href =
+    "../login.html";
+
+  }catch(error){
+
+   showToast(
+    error.message
+   );
+
+  }
+
+ });
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+document.getElementById(
+ "menuBtn"
+).addEventListener(
+ "click",
+ ()=>{
+  document
+   .getElementById(
+    "sidebar"
+   )
+   .classList.toggle(
+    "open"
+   );
+ });
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(message){
+
+ const toast =
+  document.getElementById(
+   "toast"
+  );
+
+
+ toast.textContent =
+  message;
+
+
+ toast.classList.add(
+  "show"
+ );
+
+
+ clearTimeout(
+  toastTimer
+ );
+
+
+ toastTimer =
+  setTimeout(
+   ()=>{
+    toast.classList.remove(
+     "show"
+    );
+   },
+   3500
+  );
+
+}
+
+
+/* =========================
+   HTML SAFETY
+========================= */
+
+function escapeHtml(value){
+
+ return String(value)
+  .replaceAll(
+   "&",
+   "&amp;"
+  )
+  .replaceAll(
+   "<",
+   "&lt;"
+  )
+  .replaceAll(
+   ">",
+   "&gt;"
+  )
+  .replaceAll(
+   '"',
+   "&quot;"
+  )
+  .replaceAll(
+   "'",
+   "&#039;"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
+
