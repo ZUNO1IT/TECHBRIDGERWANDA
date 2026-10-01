@@ -1,0 +1,1806 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070b14" />
+
+  <title>Courses | TECHBRIDGE RWANDA</title>
+
+  <style>
+    :root {
+      --bg: #070b14;
+      --sidebar: #0a1120;
+      --card: rgba(15, 24, 43, .78);
+      --card-hover: rgba(20, 32, 56, .95);
+      --border: rgba(255,255,255,.08);
+      --text: #f5f7ff;
+      --muted: #93a1b8;
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --green: #22c55e;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --radius: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 85% 0%, rgba(0,229,255,.08), transparent 28%),
+        radial-gradient(circle at 20% 90%, rgba(168,85,247,.07), transparent 30%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+      width: 250px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      padding: 22px 14px;
+      background: rgba(9,15,27,.94);
+      border-right: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 4px 10px 25px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: #031016;
+      font-weight: 950;
+      background: linear-gradient(135deg,var(--cyan),var(--blue));
+      box-shadow: 0 0 28px rgba(0,229,255,.22);
+    }
+
+    .brand-text {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--cyan);
+      font-size: 8px;
+      letter-spacing: 1.6px;
+      margin-top: 3px;
+    }
+
+    .nav-title {
+      color: #5e6b80;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 15px 12px 8px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 13px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .nav-item:hover {
+      color: white;
+      background: rgba(255,255,255,.04);
+    }
+
+    .nav-item.active {
+      color: var(--cyan);
+      background: rgba(0,229,255,.07);
+      border-color: rgba(0,229,255,.13);
+    }
+
+    .nav-icon {
+      width: 21px;
+      text-align: center;
+    }
+
+    .sidebar-user {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 900;
+      background: linear-gradient(135deg,var(--purple),var(--blue));
+    }
+
+    .sidebar-name {
+      min-width: 0;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-role {
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      width: calc(100% - 250px);
+      margin-left: 250px;
+      padding: 22px 28px 50px;
+    }
+
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card);
+      color: white;
+    }
+
+    .top-title h1 {
+      font-size: 23px;
+      letter-spacing: -.6px;
+    }
+
+    .top-title p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 9px;
+    }
+
+    .top-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: #bdc8da;
+    }
+
+    .top-btn:hover {
+      color: var(--cyan);
+      border-color: rgba(0,229,255,.25);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      border-radius: 24px;
+      border: 1px solid rgba(0,229,255,.12);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(168,85,247,.20), transparent 30%),
+        radial-gradient(circle at 65% 100%, rgba(0,229,255,.12), transparent 35%),
+        linear-gradient(135deg, #0d1b31, #09111f);
+      margin-bottom: 24px;
+    }
+
+    .hero::after {
+      content: "</>";
+      position: absolute;
+      right: 30px;
+      bottom: -45px;
+      font-size: 150px;
+      font-weight: 950;
+      color: rgba(255,255,255,.025);
+    }
+
+    .hero-label {
+      color: var(--cyan);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .hero h2 {
+      font-size: clamp(27px, 4vw, 42px);
+      letter-spacing: -1.4px;
+      max-width: 650px;
+    }
+
+    .hero h2 span {
+      color: var(--cyan);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin-top: 11px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    /* =========================
+       FILTER BAR
+    ========================= */
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 46px;
+      padding: 0 15px 0 43px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      outline: none;
+      background: var(--card);
+      color: white;
+    }
+
+    .search-box input:focus {
+      border-color: rgba(0,229,255,.35);
+      box-shadow: 0 0 0 3px rgba(0,229,255,.06);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 14px;
+      color: #6f7e94;
+    }
+
+    .filter {
+      height: 46px;
+      min-width: 170px;
+      padding: 0 13px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: #d8e1ef;
+      outline: none;
+    }
+
+    .filter option {
+      background: #101827;
+    }
+
+    /* =========================
+       COURSE GRID
+    ========================= */
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .section-title h3 {
+      font-size: 15px;
+    }
+
+    .course-count {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 17px;
+    }
+
+    .course-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      transition: .25s ease;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0,229,255,.20);
+      background: var(--card-hover);
+      box-shadow: 0 18px 45px rgba(0,0,0,.25);
+    }
+
+    .course-cover {
+      height: 145px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 17px;
+      overflow: hidden;
+    }
+
+    .course-cover::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      right: -45px;
+      top: -70px;
+    }
+
+    .cover-1 {
+      background: linear-gradient(135deg,#0b5965,#102c5c);
+    }
+
+    .cover-2 {
+      background: linear-gradient(135deg,#172c63,#43206d);
+    }
+
+    .cover-3 {
+      background: linear-gradient(135deg,#123c31,#102b59);
+    }
+
+    .cover-4 {
+      background: linear-gradient(135deg,#41204f,#162c63);
+    }
+
+    .cover-5 {
+      background: linear-gradient(135deg,#52300e,#173c55);
+    }
+
+    .cover-6 {
+      background: linear-gradient(135deg,#112d54,#263c78);
+    }
+
+    .cover-7 {
+      background: linear-gradient(135deg,#153f39,#2d205e);
+    }
+
+    .cover-8 {
+      background: linear-gradient(135deg,#42225d,#162d55);
+    }
+
+    .cover-9 {
+      background: linear-gradient(135deg,#173c61,#3d261d);
+    }
+
+    .cover-10 {
+      background: linear-gradient(135deg,#163d4b,#40205c);
+    }
+
+    .course-symbol {
+      position: absolute;
+      right: 20px;
+      top: 28px;
+      font-size: 52px;
+      font-weight: 950;
+      color: rgba(255,255,255,.15);
+    }
+
+    .level {
+      position: relative;
+      z-index: 2;
+      padding: 6px 9px;
+      border-radius: 8px;
+      background: rgba(0,0,0,.30);
+      border: 1px solid rgba(255,255,255,.10);
+      color: #dce9ff;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+
+    .course-body {
+      padding: 17px;
+    }
+
+    .course-title {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .course-description {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+      margin-top: 8px;
+      min-height: 52px;
+    }
+
+    .course-meta {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-top: 13px;
+      color: #8492a8;
+      font-size: 10px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .course-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 17px;
+    }
+
+    .price {
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .price span {
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .view-btn {
+      border: 0;
+      padding: 9px 13px;
+      border-radius: 10px;
+      color: #031016;
+      font-size: 10px;
+      font-weight: 900;
+      background: linear-gradient(90deg,var(--cyan),var(--blue));
+      transition: .2s;
+    }
+
+    .view-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       EMPTY
+    ========================= */
+
+    .no-results {
+      display: none;
+      padding: 50px 20px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      color: var(--muted);
+    }
+
+    .no-results-icon {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    .overlay {
+      display: none;
+    }
+
+    @media (max-width: 1100px) {
+      .course-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+        z-index: 90;
+      }
+
+      .overlay.show {
+        display: block;
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        gap: 12px;
+      }
+
+      .top-title {
+        flex: 1;
+      }
+
+      .top-actions {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 23px;
+      }
+
+      .hero h2 {
+        font-size: 28px;
+      }
+
+      .toolbar {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .search-box {
+        min-width: 0;
+      }
+
+      .filter {
+        width: 100%;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="logo">TB</div>
+
+      <div class="brand-text">
+        TECHBRIDGE
+        <span>RWANDA</span>
+      </div>
+    </div>
+
+
+    <div class="nav-title">LEARNING</div>
+
+    <nav class="nav">
+
+      <button class="nav-item" onclick="go('index.html')">
+        <span class="nav-icon">⌂</span>
+        Dashboard
+      </button>
+
+      <button class="nav-item active">
+        <span class="nav-icon">▣</span>
+        My Courses
+      </button>
+
+      <button class="nav-item" onclick="go('quizzes.html')">
+        <span class="nav-icon">✓</span>
+        Quizzes
+      </button>
+
+      <button class="nav-item" onclick="go('tests.html')">
+        <span class="nav-icon">◈</span>
+        Tests
+      </button>
+
+      <button class="nav-item" onclick="go('practical.html')">
+        <span class="nav-icon">⌘</span>
+        Practical Learning
+      </button>
+
+    </nav>
+
+
+    <div class="nav-title">ACHIEVEMENT</div>
+
+    <nav class="nav">
+
+      <button class="nav-item" onclick="go('certificates.html')">
+        <span class="nav-icon">◇</span>
+        Certificates
+      </button>
+
+      <button class="nav-item" onclick="go('settings.html')">
+        <span class="nav-icon">⚙</span>
+        Settings
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-user">
+
+      <div class="avatar" id="avatar">
+        ?
+      </div>
+
+      <div>
+        <div class="sidebar-name" id="sidebarName">
+          Loading...
+        </div>
+
+        <div class="sidebar-role">
+          Student
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div class="overlay" id="overlay"></div>
+
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button
+        class="mobile-menu"
+        id="mobileMenu"
+      >
+        ☰
+      </button>
+
+      <div class="top-title">
+        <h1>Courses</h1>
+        <p>Learn skills that help you build your future.</p>
+      </div>
+
+      <div class="top-actions">
+
+        <button class="top-btn">
+          ♧
+        </button>
+
+        <button
+          class="top-btn"
+          onclick="go('settings.html')"
+        >
+          ⚙
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-label">
+        TECHBRIDGE LEARNING PLATFORM
+      </div>
+
+      <h2>
+        Choose a skill.
+        <span>Build something.</span>
+      </h2>
+
+      <p>
+        Explore our structured courses from computer fundamentals
+        to programming, cybersecurity and artificial intelligence.
+        Start from your current level and progress step by step.
+      </p>
+
+    </section>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+      <div class="search-box">
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search courses..."
+          autocomplete="off"
+        />
+
+      </div>
+
+
+      <select
+        class="filter"
+        id="levelFilter"
+      >
+        <option value="all">
+          All levels
+        </option>
+
+        <option value="beginner">
+          Beginner
+        </option>
+
+        <option value="intermediate">
+          Intermediate
+        </option>
+
+        <option value="advanced">
+          Advanced
+        </option>
+      </select>
+
+    </div>
+
+
+    <div class="section-title">
+
+      <h3>Available Courses</h3>
+
+      <span
+        class="course-count"
+        id="courseCount"
+      >
+        10 courses
+      </span>
+
+    </div>
+
+
+    <!-- COURSE GRID -->
+
+    <section
+      class="course-grid"
+      id="courseGrid"
+    >
+
+
+      <!-- 1 -->
+
+      <article
+        class="course-card"
+        data-level="beginner"
+        data-search="computer basics computer fundamentals beginner"
+      >
+
+        <div class="course-cover cover-1">
+
+          <div class="course-symbol">
+            PC
+          </div>
+
+          <div class="level">
+            Beginner
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Computer Basics
+          </div>
+
+          <div class="course-description">
+            Learn how computers work, files, folders,
+            operating systems, internet basics and digital safety.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 4 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Beginner
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 5,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('computer-basics')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 2 -->
+
+      <article
+        class="course-card"
+        data-level="beginner"
+        data-search="programming foundations coding programming beginner"
+      >
+
+        <div class="course-cover cover-2">
+
+          <div class="course-symbol">
+            </>
+          </div>
+
+          <div class="level">
+            Beginner
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Programming Foundations
+          </div>
+
+          <div class="course-description">
+            Understand variables, conditions, loops, functions,
+            algorithms and problem-solving fundamentals.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 6 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Beginner
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 7,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('programming-foundations')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 3 -->
+
+      <article
+        class="course-card"
+        data-level="beginner"
+        data-search="web development html css javascript website beginner"
+      >
+
+        <div class="course-cover cover-3">
+
+          <div class="course-symbol">
+            WEB
+          </div>
+
+          <div class="level">
+            Beginner
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Web Development
+          </div>
+
+          <div class="course-description">
+            Build modern websites using HTML, CSS and JavaScript
+            through practical projects.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 8 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Beginner
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 10,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('web-development')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 4 -->
+
+      <article
+        class="course-card"
+        data-level="intermediate"
+        data-search="javascript advanced javascript programming intermediate"
+      >
+
+        <div class="course-cover cover-4">
+
+          <div class="course-symbol">
+            JS
+          </div>
+
+          <div class="level">
+            Intermediate
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            JavaScript Development
+          </div>
+
+          <div class="course-description">
+            Move beyond the basics and build interactive web
+            applications using modern JavaScript.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 8 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Intermediate
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 12,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('javascript-development')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 5 -->
+
+      <article
+        class="course-card"
+        data-level="intermediate"
+        data-search="database sql mysql database management intermediate"
+      >
+
+        <div class="course-cover cover-5">
+
+          <div class="course-symbol">
+            DB
+          </div>
+
+          <div class="level">
+            Intermediate
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Databases & SQL
+          </div>
+
+          <div class="course-description">
+            Learn relational databases, SQL queries, tables,
+            relationships and database design.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 6 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Intermediate
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 9,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('databases-sql')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 6 -->
+
+      <article
+        class="course-card"
+        data-level="intermediate"
+        data-search="c++ c plus plus programming algorithms intermediate"
+      >
+
+        <div class="course-cover cover-6">
+
+          <div class="course-symbol">
+            C++
+          </div>
+
+          <div class="level">
+            Intermediate
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            C++ Programming
+          </div>
+
+          <div class="course-description">
+            Learn structured programming, functions, arrays,
+            object-oriented programming and problem solving.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 8 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Intermediate
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 12,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('cpp-programming')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 7 -->
+
+      <article
+        class="course-card"
+        data-level="advanced"
+        data-search="cybersecurity cyber security network security advanced"
+      >
+
+        <div class="course-cover cover-7">
+
+          <div class="course-symbol">
+            SEC
+          </div>
+
+          <div class="level">
+            Advanced
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Cyber Security
+          </div>
+
+          <div class="course-description">
+            Learn security principles, authentication, network
+            security, secure development and defensive practices.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 10 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Advanced
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 15,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('cyber-security')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 8 -->
+
+      <article
+        class="course-card"
+        data-level="advanced"
+        data-search="artificial intelligence ai machine learning advanced"
+      >
+
+        <div class="course-cover cover-8">
+
+          <div class="course-symbol">
+            AI
+          </div>
+
+          <div class="level">
+            Advanced
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Artificial Intelligence
+          </div>
+
+          <div class="course-description">
+            Explore AI concepts, machine learning foundations,
+            responsible AI and practical AI applications.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 10 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Advanced
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 15,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('artificial-intelligence')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 9 -->
+
+      <article
+        class="course-card"
+        data-level="advanced"
+        data-search="mobile app android development kotlin advanced"
+      >
+
+        <div class="course-cover cover-9">
+
+          <div class="course-symbol">
+            APP
+          </div>
+
+          <div class="level">
+            Advanced
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Android App Development
+          </div>
+
+          <div class="course-description">
+            Learn how mobile applications are designed and built,
+            including Android development concepts and projects.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 10 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Advanced
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 15,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('android-development')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- 10 -->
+
+      <article
+        class="course-card"
+        data-level="intermediate"
+        data-search="github git software development collaboration intermediate"
+      >
+
+        <div class="course-cover cover-10">
+
+          <div class="course-symbol">
+            GIT
+          </div>
+
+          <div class="level">
+            Intermediate
+          </div>
+
+        </div>
+
+        <div class="course-body">
+
+          <div class="course-title">
+            Git & GitHub
+          </div>
+
+          <div class="course-description">
+            Learn version control, repositories, branches,
+            collaboration and professional development workflows.
+          </div>
+
+          <div class="course-meta">
+
+            <div class="meta-item">
+              ◷ 4 Weeks
+            </div>
+
+            <div class="meta-item">
+              ◇ Intermediate
+            </div>
+
+          </div>
+
+          <div class="course-footer">
+
+            <div class="price">
+              RWF 6,000
+              <span>/ course</span>
+            </div>
+
+            <button
+              class="view-btn"
+              onclick="openCourse('git-github')"
+            >
+              View Course
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <div
+      class="no-results"
+      id="noResults"
+    >
+      <div class="no-results-icon">⌕</div>
+
+      <strong>No courses found</strong>
+
+      <div style="margin-top:6px;">
+        Try another search or level.
+      </div>
+    </div>
+
+  </main>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+    /* =========================
+       FIREBASE
+    ========================= */
+
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+      authDomain: "techbrige-rwanda.firebaseapp.com",
+      projectId: "techbrige-rwanda",
+      storageBucket: "techbrige-rwanda.firebasestorage.app",
+      messagingSenderId: "391783540774",
+      appId: "1:391783540774:web:de825e268d4ed6b2711ee7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    window.go = function(page) {
+      window.location.href = page;
+    };
+
+
+    window.openCourse = function(courseId) {
+
+      /*
+        Course details page will use this ID
+        to load the correct course.
+      */
+
+      window.location.href =
+        `course.html?id=${encodeURIComponent(courseId)}`;
+
+    };
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    const sidebar =
+      document.getElementById("sidebar");
+
+    const overlay =
+      document.getElementById("overlay");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    mobileMenu.addEventListener("click", () => {
+
+      sidebar.classList.add("open");
+
+      overlay.classList.add("show");
+
+    });
+
+
+    overlay.addEventListener("click", () => {
+
+      sidebar.classList.remove("open");
+
+      overlay.classList.remove("show");
+
+    });
+
+
+    /* =========================
+       SEARCH + FILTER
+    ========================= */
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+    const levelFilter =
+      document.getElementById("levelFilter");
+
+    const cards =
+      Array.from(
+        document.querySelectorAll(".course-card")
+      );
+
+    const courseCount =
+      document.getElementById("courseCount");
+
+    const noResults =
+      document.getElementById("noResults");
+
+
+    function filterCourses() {
+
+      const search =
+        searchInput.value
+          .toLowerCase()
+          .trim();
+
+      const level =
+        levelFilter.value;
+
+      let visible = 0;
+
+
+      cards.forEach(card => {
+
+        const text =
+          card.dataset.search.toLowerCase();
+
+        const cardLevel =
+          card.dataset.level;
+
+        const matchesSearch =
+          !search ||
+          text.includes(search);
+
+        const matchesLevel =
+          level === "all" ||
+          cardLevel === level;
+
+
+        const show =
+          matchesSearch &&
+          matchesLevel;
+
+
+        card.style.display =
+          show ? "" : "none";
+
+
+        if (show) visible++;
+
+      });
+
+
+      courseCount.textContent =
+        `${visible} course${visible === 1 ? "" : "s"}`;
+
+
+      noResults.style.display =
+        visible === 0 ? "block" : "none";
+
+    }
+
+
+    searchInput.addEventListener(
+      "input",
+      filterCourses
+    );
+
+    levelFilter.addEventListener(
+      "change",
+      filterCourses
+    );
+
+
+    /* =========================
+       USER PROFILE
+    ========================= */
+
+    async function loadUser(user) {
+
+      try {
+
+        const snapshot =
+          await getDoc(
+            doc(db, "users", user.uid)
+          );
+
+
+        let name =
+          user.displayName ||
+          user.email?.split("@")[0] ||
+          "Student";
+
+
+        if (snapshot.exists()) {
+
+          const data =
+            snapshot.data();
+
+          name =
+            data.fullName ||
+            `${data.firstName || ""} ${data.lastName || ""}`.trim() ||
+            name;
+
+        }
+
+
+        document.getElementById(
+          "sidebarName"
+        ).textContent = name;
+
+
+        const initials =
+          name
+            .trim()
+            .split(/\s+/)
+            .slice(0,2)
+            .map(word => word[0])
+            .join("")
+            .toUpperCase();
+
+
+        document.getElementById(
+          "avatar"
+        ).textContent =
+          initials || "ST";
+
+
+      } catch (error) {
+
+        console.error(
+          "User profile error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    onAuthStateChanged(
+      auth,
+      async user => {
+
+        if (!user) {
+
+          window.location.replace(
+            "../login.html"
+          );
+
+          return;
+
+        }
+
+
+        await loadUser(user);
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
+```
