@@ -1,0 +1,1667 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TECHBRIDGE RWANDA — Test</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+ --bg:#070b14;
+ --panel:#0d1527;
+ --panel2:#111c31;
+ --border:rgba(255,255,255,.08);
+ --text:#f8fafc;
+ --muted:#94a3b8;
+ --cyan:#00e5ff;
+ --blue:#3b82f6;
+ --purple:#a855f7;
+ --green:#22c55e;
+ --red:#ef4444;
+ --yellow:#f59e0b;
+}
+
+body{
+ font-family:Inter,Arial,sans-serif;
+ color:var(--text);
+ min-height:100vh;
+ background:
+ radial-gradient(circle at top left,rgba(0,229,255,.08),transparent 30%),
+ radial-gradient(circle at bottom right,rgba(168,85,247,.08),transparent 30%),
+ var(--bg);
+}
+
+button{font:inherit;cursor:pointer}
+
+.topbar{
+ position:sticky;
+ top:0;
+ z-index:50;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:15px;
+ padding:15px 22px;
+ border-bottom:1px solid var(--border);
+ background:rgba(7,11,20,.88);
+ backdrop-filter:blur(18px);
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.logo{
+ width:40px;
+ height:40px;
+ display:grid;
+ place-items:center;
+ border-radius:12px;
+ color:#041018;
+ font-weight:900;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+}
+
+.brand strong{
+ display:block;
+ font-size:13px;
+}
+
+.brand span{
+ color:var(--muted);
+ font-size:9px;
+}
+
+.timer{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ padding:9px 13px;
+ border:1px solid rgba(0,229,255,.2);
+ border-radius:11px;
+ color:var(--cyan);
+ background:rgba(0,229,255,.06);
+ font-weight:900;
+ font-size:13px;
+}
+
+.timer.warning{
+ color:#fcd34d;
+ border-color:rgba(245,158,11,.3);
+ background:rgba(245,158,11,.07);
+}
+
+.timer.danger{
+ color:#fca5a5;
+ border-color:rgba(239,68,68,.3);
+ background:rgba(239,68,68,.07);
+}
+
+.container{
+ width:min(950px,100%);
+ margin:auto;
+ padding:25px 18px 60px;
+}
+
+.test-header{
+ margin-bottom:22px;
+}
+
+.back{
+ display:inline-block;
+ margin-bottom:15px;
+ color:var(--cyan);
+ text-decoration:none;
+ font-size:12px;
+}
+
+.test-header h1{
+ font-size:28px;
+ line-height:1.3;
+ margin-bottom:8px;
+}
+
+.description{
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.7;
+}
+
+.meta{
+ display:flex;
+ flex-wrap:wrap;
+ gap:7px;
+ margin-top:14px;
+}
+
+.meta span{
+ padding:7px 10px;
+ border-radius:999px;
+ color:#cbd5e1;
+ background:rgba(255,255,255,.05);
+ font-size:10px;
+}
+
+.progress-wrap{
+ margin-bottom:20px;
+ padding:15px;
+ border:1px solid var(--border);
+ border-radius:15px;
+ background:rgba(255,255,255,.025);
+}
+
+.progress-top{
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:9px;
+ color:var(--muted);
+ font-size:10px;
+}
+
+.progress{
+ height:6px;
+ overflow:hidden;
+ border-radius:999px;
+ background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+ width:0%;
+ height:100%;
+ border-radius:999px;
+ background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
+ transition:.2s;
+}
+
+.question{
+ padding:21px;
+ margin-bottom:14px;
+ border:1px solid var(--border);
+ border-radius:17px;
+ background:rgba(255,255,255,.035);
+}
+
+.question-number{
+ color:var(--cyan);
+ font-size:10px;
+ font-weight:900;
+ text-transform:uppercase;
+ letter-spacing:1px;
+ margin-bottom:9px;
+}
+
+.question-text{
+ font-size:16px;
+ line-height:1.6;
+ margin-bottom:15px;
+}
+
+.options{
+ display:grid;
+ gap:9px;
+}
+
+.option{
+ position:relative;
+ display:flex;
+ align-items:flex-start;
+ gap:10px;
+ padding:13px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ color:#cbd5e1;
+ background:rgba(255,255,255,.025);
+ cursor:pointer;
+ transition:.15s;
+}
+
+.option:hover{
+ border-color:rgba(0,229,255,.25);
+ background:rgba(0,229,255,.04);
+}
+
+.option.selected{
+ border-color:rgba(0,229,255,.45);
+ background:rgba(0,229,255,.08);
+ color:white;
+}
+
+.option input{
+ margin-top:3px;
+ accent-color:var(--cyan);
+}
+
+.option-letter{
+ width:24px;
+ height:24px;
+ flex:none;
+ display:grid;
+ place-items:center;
+ border-radius:7px;
+ color:#94a3b8;
+ background:rgba(255,255,255,.06);
+ font-size:10px;
+ font-weight:900;
+}
+
+.option.selected .option-letter{
+ color:#041018;
+ background:var(--cyan);
+}
+
+.submit-area{
+ padding:20px;
+ border:1px solid var(--border);
+ border-radius:17px;
+ background:rgba(255,255,255,.035);
+}
+
+.submit-info{
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.6;
+ margin-bottom:14px;
+}
+
+.submit-btn{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:12px;
+ color:#041018;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+ font-weight:900;
+}
+
+.submit-btn:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.loading{
+ min-height:60vh;
+ display:grid;
+ place-items:center;
+ text-align:center;
+ color:var(--muted);
+}
+
+.spinner{
+ width:36px;
+ height:36px;
+ margin:0 auto 13px;
+ border:3px solid rgba(255,255,255,.08);
+ border-top-color:var(--cyan);
+ border-radius:50%;
+ animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
+}
+
+.error{
+ padding:25px;
+ border:1px solid rgba(239,68,68,.2);
+ border-radius:16px;
+ color:#fca5a5;
+ background:rgba(239,68,68,.07);
+ text-align:center;
+}
+
+.result{
+ display:none;
+ min-height:70vh;
+ align-items:center;
+ justify-content:center;
+}
+
+.result.show{
+ display:flex;
+}
+
+.result-card{
+ width:min(600px,100%);
+ padding:30px;
+ border:1px solid var(--border);
+ border-radius:22px;
+ text-align:center;
+ background:
+ linear-gradient(
+  145deg,
+  rgba(255,255,255,.05),
+  rgba(255,255,255,.02)
+ );
+}
+
+.result-icon{
+ width:70px;
+ height:70px;
+ display:grid;
+ place-items:center;
+ margin:0 auto 15px;
+ border-radius:50%;
+ font-size:30px;
+ background:rgba(34,197,94,.1);
+}
+
+.result.failed .result-icon{
+ background:rgba(239,68,68,.1);
+}
+
+.result-card h2{
+ font-size:25px;
+ margin-bottom:7px;
+}
+
+.result-card p{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.7;
+}
+
+.score{
+ margin:20px 0;
+ font-size:45px;
+ font-weight:900;
+ color:var(--cyan);
+}
+
+.result-stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+ margin-bottom:20px;
+}
+
+.result-stat{
+ padding:13px 8px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ background:rgba(255,255,255,.025);
+}
+
+.result-stat small{
+ display:block;
+ color:var(--muted);
+ font-size:9px;
+ margin-bottom:5px;
+}
+
+.result-stat strong{
+ font-size:16px;
+}
+
+.result-buttons{
+ display:flex;
+ gap:9px;
+}
+
+.result-buttons a,
+.result-buttons button{
+ flex:1;
+ padding:12px;
+ border-radius:11px;
+ text-decoration:none;
+ text-align:center;
+ font-size:11px;
+ font-weight:900;
+}
+
+.primary{
+ border:0;
+ color:#041018;
+ background:linear-gradient(135deg,var(--cyan),var(--blue));
+}
+
+.secondary{
+ border:1px solid var(--border);
+ color:#cbd5e1;
+ background:rgba(255,255,255,.04);
+}
+
+@media(max-width:600px){
+
+ .topbar{
+  padding:13px 15px;
+ }
+
+ .test-header h1{
+  font-size:23px;
+ }
+
+ .question{
+  padding:16px;
+ }
+
+ .question-text{
+  font-size:14px;
+ }
+
+ .result-stats{
+  grid-template-columns:1fr;
+ }
+
+ .result-buttons{
+  flex-direction:column;
+ }
+
+ .brand span{
+  display:none;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+ <div class="brand">
+
+  <div class="logo">TB</div>
+
+  <div>
+   <strong>TECHBRIDGE RWANDA</strong>
+   <span>ASSESSMENT CENTER</span>
+  </div>
+
+ </div>
+
+ <div class="timer" id="timer">
+  ⏱ <span id="timerText">--:--</span>
+ </div>
+
+</header>
+
+
+<main class="container">
+
+ <section id="loading" class="loading">
+
+  <div>
+   <div class="spinner"></div>
+   Loading test...
+  </div>
+
+ </section>
+
+
+ <section id="error" class="error" style="display:none">
+
+  <strong>Unable to load this test.</strong>
+
+  <p id="errorText" style="margin-top:8px"></p>
+
+ </section>
+
+
+ <section id="testArea" style="display:none">
+
+  <div class="test-header">
+
+   <a href="./tests.html" class="back">
+    ← Back to Tests
+   </a>
+
+   <h1 id="testTitle">
+    Test
+   </h1>
+
+   <p
+    class="description"
+    id="testDescription"
+   ></p>
+
+   <div class="meta">
+
+    <span id="levelMeta">Beginner</span>
+
+    <span id="questionMeta">
+     0 Questions
+    </span>
+
+    <span id="timeMeta">
+     No timer
+    </span>
+
+    <span id="passingMeta">
+     Passing: 50%
+    </span>
+
+   </div>
+
+  </div>
+
+
+  <div class="progress-wrap">
+
+   <div class="progress-top">
+
+    <span>
+     Test Progress
+    </span>
+
+    <span id="progressText">
+     0 / 0
+    </span>
+
+   </div>
+
+   <div class="progress">
+    <div
+     class="progress-bar"
+     id="progressBar"
+    ></div>
+   </div>
+
+  </div>
+
+
+  <div id="questionsContainer"></div>
+
+
+  <div class="submit-area">
+
+   <p class="submit-info">
+    Review your answers before submitting.
+    Once submitted, your result will be saved to your student account.
+   </p>
+
+   <button
+    class="submit-btn"
+    id="submitBtn"
+   >
+    Submit Test
+   </button>
+
+  </div>
+
+ </section>
+
+
+ <section
+  id="result"
+  class="result"
+ >
+
+  <div class="result-card">
+
+   <div
+    class="result-icon"
+    id="resultIcon"
+   >
+    ✓
+   </div>
+
+   <h2 id="resultTitle">
+    Test Completed
+   </h2>
+
+   <p id="resultMessage">
+    Your result has been saved.
+   </p>
+
+   <div
+    class="score"
+    id="finalScore"
+   >
+    0%
+   </div>
+
+   <div class="result-stats">
+
+    <div class="result-stat">
+     <small>Correct</small>
+     <strong id="correctCount">0</strong>
+    </div>
+
+    <div class="result-stat">
+     <small>Wrong</small>
+     <strong id="wrongCount">0</strong>
+    </div>
+
+    <div class="result-stat">
+     <small>Passing</small>
+     <strong id="passingResult">50%</strong>
+    </div>
+
+   </div>
+
+   <div class="result-buttons">
+
+    <a
+     href="./tests.html"
+     class="secondary"
+    >
+     Back to Tests
+    </a>
+
+    <button
+     class="primary"
+     id="retakeBtn"
+    >
+     Retake Test
+    </button>
+
+   </div>
+
+  </div>
+
+ </section>
+
+</main>
+
+
+<script type="module">
+
+import {
+ initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+ getAuth,
+ onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ doc,
+ getDoc,
+ collection,
+ addDoc,
+ serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+ apiKey:
+  "AIzaSyAIeekQOHDHt--r4KbPU8YOgueG3P1249g",
+
+ authDomain:
+  "techbrige-rwanda.firebaseapp.com",
+
+ projectId:
+  "techbrige-rwanda",
+
+ storageBucket:
+  "techbrige-rwanda.firebasestorage.app",
+
+ messagingSenderId:
+  "391783540774",
+
+ appId:
+  "1:391783540774:web:de825e268d4ed6b2711ee7"
+
+};
+
+
+const app =
+ initializeApp(firebaseConfig);
+
+const auth =
+ getAuth(app);
+
+const db =
+ getFirestore(app);
+
+
+/* ==========================
+   ELEMENTS
+========================== */
+
+const loading =
+ document.getElementById("loading");
+
+const errorBox =
+ document.getElementById("error");
+
+const errorText =
+ document.getElementById("errorText");
+
+const testArea =
+ document.getElementById("testArea");
+
+const resultArea =
+ document.getElementById("result");
+
+const testTitle =
+ document.getElementById("testTitle");
+
+const testDescription =
+ document.getElementById("testDescription");
+
+const levelMeta =
+ document.getElementById("levelMeta");
+
+const questionMeta =
+ document.getElementById("questionMeta");
+
+const timeMeta =
+ document.getElementById("timeMeta");
+
+const passingMeta =
+ document.getElementById("passingMeta");
+
+const questionsContainer =
+ document.getElementById("questionsContainer");
+
+const progressText =
+ document.getElementById("progressText");
+
+const progressBar =
+ document.getElementById("progressBar");
+
+const submitBtn =
+ document.getElementById("submitBtn");
+
+const timer =
+ document.getElementById("timer");
+
+const timerText =
+ document.getElementById("timerText");
+
+const resultIcon =
+ document.getElementById("resultIcon");
+
+const resultTitle =
+ document.getElementById("resultTitle");
+
+const resultMessage =
+ document.getElementById("resultMessage");
+
+const finalScore =
+ document.getElementById("finalScore");
+
+const correctCount =
+ document.getElementById("correctCount");
+
+const wrongCount =
+ document.getElementById("wrongCount");
+
+const passingResult =
+ document.getElementById("passingResult");
+
+const retakeBtn =
+ document.getElementById("retakeBtn");
+
+
+/* ==========================
+   STATE
+========================== */
+
+let currentUser = null;
+
+let test = null;
+
+let questions = [];
+
+let answers = {};
+
+let remainingSeconds = 0;
+
+let timerInterval = null;
+
+let submitted = false;
+
+
+/* ==========================
+   GET TEST ID
+========================== */
+
+const params =
+ new URLSearchParams(
+  window.location.search
+ );
+
+const testId =
+ params.get("id") ||
+ params.get("testId");
+
+
+/* ==========================
+   AUTH
+========================== */
+
+onAuthStateChanged(
+ auth,
+ async user => {
+
+  if(!user){
+
+   window.location.href =
+    "../login.html";
+
+   return;
+
+  }
+
+  currentUser = user;
+
+  await loadTest();
+
+ }
+);
+
+
+/* ==========================
+   LOAD TEST
+========================== */
+
+async function loadTest(){
+
+ if(!testId){
+
+  showError(
+   "No test ID was provided."
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  const snapshot =
+   await getDoc(
+    doc(
+     db,
+     "tests",
+     testId
+    )
+   );
+
+
+  if(!snapshot.exists()){
+
+   showError(
+    "This test does not exist."
+   );
+
+   return;
+
+  }
+
+
+  test = {
+   id:snapshot.id,
+   ...snapshot.data()
+  };
+
+
+  if(
+   test.status !== "published"
+  ){
+
+   showError(
+    "This test is not currently available."
+   );
+
+   return;
+
+  }
+
+
+  questions =
+   Array.isArray(test.questions)
+    ? test.questions
+    : [];
+
+
+  if(!questions.length){
+
+   showError(
+    "This test has no questions yet."
+   );
+
+   return;
+
+  }
+
+
+  renderTest();
+
+ }catch(error){
+
+  console.error(error);
+
+  showError(
+   error.message ||
+   "Please check your internet connection."
+  );
+
+ }
+
+}
+
+
+/* ==========================
+   RENDER TEST
+========================== */
+
+function renderTest(){
+
+ loading.style.display =
+  "none";
+
+ errorBox.style.display =
+  "none";
+
+ testArea.style.display =
+  "block";
+
+
+ testTitle.textContent =
+  test.title ||
+  "Test";
+
+
+ testDescription.textContent =
+  test.description ||
+  "Complete this assessment to measure your skills.";
+
+
+ levelMeta.textContent =
+  test.level ||
+  "Beginner";
+
+
+ questionMeta.textContent =
+  `${questions.length} Questions`;
+
+
+ const timeLimit =
+  Number(
+   test.timeLimit || 0
+  );
+
+
+ timeMeta.textContent =
+  timeLimit > 0
+   ? `${timeLimit} min`
+   : "No timer";
+
+
+ passingMeta.textContent =
+  `Passing: ${Number(
+    test.passingScore ?? 50
+  )}%`;
+
+
+ renderQuestions();
+
+ updateProgress();
+
+
+ if(timeLimit > 0){
+
+  remainingSeconds =
+   timeLimit * 60;
+
+  updateTimer();
+
+  timerInterval =
+   setInterval(
+    tickTimer,
+    1000
+   );
+
+ }else{
+
+  timerText.textContent =
+   "No limit";
+
+ }
+
+}
+
+
+/* ==========================
+   QUESTIONS
+========================== */
+
+function renderQuestions(){
+
+ questionsContainer.innerHTML =
+  "";
+
+
+ questions.forEach(
+  (question,index)=>{
+
+   const wrapper =
+    document.createElement(
+     "article"
+    );
+
+
+   wrapper.className =
+    "question";
+
+
+   const options =
+    Array.isArray(
+     question.options
+    )
+     ? question.options
+     : [];
+
+
+   const letters =
+    ["A","B","C","D"];
+
+
+   wrapper.innerHTML = `
+
+    <div class="question-number">
+     Question ${index + 1}
+    </div>
+
+    <div class="question-text">
+     ${escapeHtml(
+      question.question ||
+      ""
+     )}
+    </div>
+
+    <div class="options">
+
+     ${
+      options.map(
+       (option,optionIndex)=>`
+
+        <label
+         class="option"
+         data-option="${optionIndex}"
+        >
+
+         <input
+          type="radio"
+          name="question-${index}"
+          value="${optionIndex}"
+         >
+
+         <span class="option-letter">
+          ${letters[optionIndex] || ""}
+         </span>
+
+         <span>
+          ${escapeHtml(option)}
+         </span>
+
+        </label>
+
+       `
+      ).join("")
+     }
+
+    </div>
+
+   `;
+
+
+   const optionLabels =
+    wrapper.querySelectorAll(
+     ".option"
+    );
+
+
+   optionLabels.forEach(
+    label=>{
+
+     label.addEventListener(
+      "click",
+      ()=>{
+
+       const selected =
+        Number(
+         label.dataset.option
+        );
+
+
+       answers[index] =
+        selected;
+
+
+       optionLabels.forEach(
+        item =>
+         item.classList.remove(
+          "selected"
+         )
+       );
+
+
+       label.classList.add(
+        "selected"
+       );
+
+
+       const input =
+        label.querySelector(
+         "input"
+        );
+
+
+       input.checked =
+        true;
+
+
+       updateProgress();
+
+      }
+     );
+
+    }
+   );
+
+
+   questionsContainer.appendChild(
+    wrapper
+   );
+
+  }
+ );
+
+}
+
+
+/* ==========================
+   PROGRESS
+========================== */
+
+function updateProgress(){
+
+ const answered =
+  Object.keys(
+   answers
+  ).length;
+
+
+ const total =
+  questions.length;
+
+
+ const percentage =
+  total
+   ? Math.round(
+      (answered / total) * 100
+     )
+   : 0;
+
+
+ progressText.textContent =
+  `${answered} / ${total}`;
+
+
+ progressBar.style.width =
+  `${percentage}%`;
+
+}
+
+
+/* ==========================
+   TIMER
+========================== */
+
+function tickTimer(){
+
+ if(submitted){
+  return;
+ }
+
+
+ remainingSeconds--;
+
+
+ updateTimer();
+
+
+ if(
+  remainingSeconds <= 0
+ ){
+
+  clearInterval(
+   timerInterval
+  );
+
+  submitTest(
+   true
+  );
+
+ }
+
+}
+
+
+function updateTimer(){
+
+ const minutes =
+  Math.floor(
+   remainingSeconds / 60
+  );
+
+ const seconds =
+  remainingSeconds % 60;
+
+
+ timerText.textContent =
+  `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+
+ timer.classList.remove(
+  "warning",
+  "danger"
+ );
+
+
+ if(
+  remainingSeconds <= 300 &&
+  remainingSeconds > 60
+ ){
+
+  timer.classList.add(
+   "warning"
+  );
+
+ }
+
+
+ if(
+  remainingSeconds <= 60
+ ){
+
+  timer.classList.add(
+   "danger"
+  );
+
+ }
+
+}
+
+
+/* ==========================
+   SUBMIT BUTTON
+========================== */
+
+submitBtn.addEventListener(
+ "click",
+ ()=>{
+
+  if(submitted){
+   return;
+  }
+
+
+  const answered =
+   Object.keys(
+    answers
+   ).length;
+
+
+  const unanswered =
+   questions.length -
+   answered;
+
+
+  if(unanswered > 0){
+
+   const proceed =
+    confirm(
+     `You have ${unanswered} unanswered question(s). Submit anyway?`
+    );
+
+
+   if(!proceed){
+    return;
+   }
+
+  }
+
+
+  submitTest(
+   false
+  );
+
+ }
+);
+
+
+/* ==========================
+   SUBMIT TEST
+========================== */
+
+async function submitTest(
+ automatic
+){
+
+ if(submitted){
+  return;
+ }
+
+
+ submitted = true;
+
+
+ if(timerInterval){
+
+  clearInterval(
+   timerInterval
+  );
+
+ }
+
+
+ submitBtn.disabled =
+  true;
+
+ submitBtn.textContent =
+  "Submitting...";
+
+
+ try{
+
+  let correct = 0;
+
+  let wrong = 0;
+
+  let totalPoints = 0;
+
+  let earnedPoints = 0;
+
+
+  /*
+   * Correct answers are read only here.
+   * They are NOT stored in the attempt.
+   */
+
+  questions.forEach(
+   (question,index)=>{
+
+    const points =
+     Number(
+      question.points || 1
+     );
+
+
+    totalPoints +=
+     points;
+
+
+    const selected =
+     answers[index];
+
+
+    const correctAnswer =
+     Number(
+      question.correctAnswer
+     );
+
+
+    if(
+     selected !== undefined &&
+     selected === correctAnswer
+    ){
+
+     correct++;
+
+     earnedPoints +=
+      points;
+
+    }else{
+
+     wrong++;
+
+    }
+
+   }
+  );
+
+
+  const score =
+   totalPoints > 0
+    ? Math.round(
+       (earnedPoints /
+        totalPoints) *
+       100
+      )
+    : 0;
+
+
+  const passingScore =
+   Number(
+    test.passingScore ?? 50
+   );
+
+
+  const passed =
+   score >= passingScore;
+
+
+  /*
+   * IMPORTANT:
+   * Do not store selected answers or
+   * correctAnswer values in Firestore.
+   */
+
+  const attemptData = {
+
+   userId:
+    currentUser.uid,
+
+   userEmail:
+    currentUser.email || "",
+
+   testId:
+    test.id,
+
+   testTitle:
+    test.title || "",
+
+   courseId:
+    test.courseId || "",
+
+   level:
+    test.level || "Beginner",
+
+   score,
+
+   earnedPoints,
+
+   totalPoints,
+
+   correct,
+
+   wrong,
+
+   total:
+    questions.length,
+
+   passingScore,
+
+   passed,
+
+   submittedAutomatically:
+    automatic === true,
+
+   completedAt:
+    serverTimestamp()
+
+  };
+
+
+  await addDoc(
+   collection(
+    db,
+    "testAttempts"
+   ),
+   attemptData
+  );
+
+
+  showResult({
+   score,
+   correct,
+   wrong,
+   passingScore,
+   passed,
+   automatic
+  });
+
+
+ }catch(error){
+
+  console.error(error);
+
+  submitted = false;
+
+  submitBtn.disabled =
+   false;
+
+  submitBtn.textContent =
+   "Submit Test";
+
+
+  alert(
+   "The result could not be saved.\n\n" +
+   (error.message || "")
+  );
+
+ }
+
+}
+
+
+/* ==========================
+   SHOW RESULT
+========================== */
+
+function showResult(data){
+
+ testArea.style.display =
+  "none";
+
+ resultArea.classList.add(
+  "show"
+ );
+
+
+ if(data.passed){
+
+  resultArea.classList.remove(
+   "failed"
+  );
+
+  resultIcon.textContent =
+   "✓";
+
+  resultTitle.textContent =
+   "Test Passed";
+
+  resultMessage.textContent =
+   data.automatic
+    ? "Time ended and your test was submitted automatically."
+    : "Congratulations! Your test result has been saved.";
+
+ }else{
+
+  resultArea.classList.add(
+   "failed"
+  );
+
+  resultIcon.textContent =
+   "×";
+
+  resultTitle.textContent =
+   "Test Not Passed";
+
+  resultMessage.textContent =
+   data.automatic
+    ? "Time ended and your test was submitted automatically."
+    : "Your result has been saved. You can review the material and retake the test.";
+
+ }
+
+
+ finalScore.textContent =
+  `${data.score}%`;
+
+
+ correctCount.textContent =
+  data.correct;
+
+
+ wrongCount.textContent =
+  data.wrong;
+
+
+ passingResult.textContent =
+  `${data.passingScore}%`;
+
+}
+
+
+/* ==========================
+   RETAKE
+========================== */
+
+retakeBtn.addEventListener(
+ "click",
+ ()=>{
+
+  window.location.href =
+   `./test.html?id=${
+    encodeURIComponent(test.id)
+   }`;
+
+ }
+);
+
+
+/* ==========================
+   ERROR
+========================== */
+
+function showError(message){
+
+ loading.style.display =
+  "none";
+
+ testArea.style.display =
+  "none";
+
+ errorBox.style.display =
+  "block";
+
+ errorText.textContent =
+  message;
+
+}
+
+
+/* ==========================
+   ESCAPE HTML
+========================== */
+
+function escapeHtml(value){
+
+ return String(value)
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
+
